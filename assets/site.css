@@ -394,11 +394,11 @@
             letter-spacing: 0.02em;
         }
 
-        input, select, textarea {
+        .form-card input, .form-card select, .form-card textarea {
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 10px 14px;
+            padding: 13px 15px;
             font-size: 14px;
             color: var(--text);
             font-family: 'Sora', sans-serif;
@@ -407,11 +407,11 @@
             width: 100%;
         }
 
-        input::placeholder, textarea::placeholder {
+        .form-card input::placeholder, .form-card textarea::placeholder {
             color: #3a3a3a;
         }
 
-        input:focus, select:focus, textarea:focus {
+        .form-card input:focus, .form-card select:focus, .form-card textarea:focus {
             border-color: var(--green);
         }
 
