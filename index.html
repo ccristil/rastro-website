@@ -148,20 +148,20 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fullname">Full name</label>
-                        <input type="text" id="fullname" placeholder="John Smith" />
+                        <input type="text" id="fullname" name="fullname" placeholder="John Smith" />
                     </div>
                     <div class="form-group">
                         <label for="company">Company name</label>
-                        <input type="text" id="company" placeholder="Smith Pest Control" />
+                        <input type="text" id="company" name="company" placeholder="Smith Pest Control" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email">Work email</label>
-                    <input type="email" id="email" placeholder="john@smithpest.com" />
+                    <input type="email" id="email" name="email" placeholder="john@smithpest.com" />
                 </div>
                 <div class="form-group" style="margin-bottom:24px;">
                     <label for="teamsize">Sales team size</label>
-                    <select id="teamsize">
+                    <select id="teamsize" name="teamsize">
                         <option value="" disabled selected>Select team size</option>
                         <option value="1-5">1–5 reps</option>
                         <option value="6-15">6–15 reps</option>
@@ -193,7 +193,7 @@
 </footer>
 
 <script>
-    function handleSubmit() {
+    async function handleSubmit() {
         const name = document.getElementById('fullname').value.trim();
         const company = document.getElementById('company').value.trim();
         const email = document.getElementById('email').value.trim();
@@ -210,11 +210,32 @@
             return;
         }
 
-        // TODO: wire up to backend / email service
-        console.log('Waitlist submission:', { name, company, email, teamsize });
+        const btn = document.querySelector('#form-content .btn-primary');
+        btn.disabled = true;
+        btn.textContent = 'Submitting…';
 
-        document.getElementById('form-content').style.display = 'none';
-        document.getElementById('success-msg').style.display = 'block';
+        try {
+            const response = await fetch('https://formspree.io/f/xeedqeyy', {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, company, email, teamsize }),
+            });
+
+            if (response.ok) {
+                document.getElementById('form-content').style.display = 'none';
+                document.getElementById('success-msg').style.display = 'block';
+            } else {
+                const data = await response.json();
+                const msg = data?.errors?.map(e => e.message).join(', ') || 'Submission failed. Please try again.';
+                alert(msg);
+                btn.disabled = false;
+                btn.textContent = 'Join the waitlist';
+            }
+        } catch {
+            alert('Network error. Please check your connection and try again.');
+            btn.disabled = false;
+            btn.textContent = 'Join the waitlist';
+        }
     }
 
     // Smooth scroll for anchor links
