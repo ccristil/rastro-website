@@ -1,0 +1,49 @@
+# Rastro
+
+## What is Rastro?
+
+Rastro is a commission tracking SaaS built specifically for pest control companies that use FieldRoutes and operate door-to-door (D2D) sales teams.
+
+**Tagline:** Commission tracking built for FieldRoutes.
+
+## The Problem
+
+Pest control companies with D2D reps cannot accurately track commissions using FieldRoutes' native reporting. Commission structures are complex:
+
+- Each rep has a unique rate
+- Managers receive override percentages that roll up from rep-level sales
+- Backends are paid out over time and must be tracked against cancellations
+- Accounts that cancel trigger clawbacks against the rep's earned commission
+- Housing subsidies are tied to revenue thresholds that can be lost after cancellations
+
+No one has a clean, real-time answer to "what do I owe my reps?" — until Rastro.
+
+
+## Core Features (V1)
+
+- **FR Sync** — Automatically pulls rep, customer, and transaction data from FieldRoutes via API. No CSV exports.
+- **Per-Rep Commission Rates** — Configure a unique commission percentage for each rep. Changes apply retroactively or from a set date.
+- **Cancellation Clawbacks** — When an account cancels, Rastro recalculates that rep's commission automatically.
+- **Manager Overrides** — Set manager override percentages that roll up from rep-level sales. Multi-tier support included.
+- **Backend Tracker** — Reps see their current, past, and projected backend payouts updated in real time.
+- **Housing Goal Logic** — Handles the edge case where a rep earns housing but loses it after cancellations. Threshold tracking built in.
+
+## How It Works
+
+1. Connect your FieldRoutes account
+2. Configure commission structure: rep rates, manager overrides, backend rules, housing thresholds
+3. Invite your reps — they get a mobile-friendly view of their own numbers
+4. Reps, managers, and owners all have the data they need in real time
+
+## Positioning
+
+FieldRoutes-native, pest control-specific. Not a generic commission tool.
+
+## Current Status
+
+Pre-launch. Collecting waitlist signups to validate product-market fit with real pest control operators before writing product code.
+
+
+## Contact
+
+Join the waitlist at https://ccristil.github.io/rastro-website/.
