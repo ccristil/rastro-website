@@ -3,7 +3,7 @@
 ## Context
 
 Rastro is a commission-tracking SaaS for FieldRoutes-native pest control companies
-with door-to-door (D2D) sales teams. This demo exists purely for sales outreach —
+with commission-based sales teams (door-to-door or inside). This demo exists purely for sales outreach —
 it needs to look and feel like a real, working app on a screen-share call, but it
 has **no backend, no auth, no database.** All data lives in the front-end.
 
