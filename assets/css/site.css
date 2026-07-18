@@ -84,9 +84,9 @@
         }
 
         nav .inner {
-            max-width: 680px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -408,6 +408,138 @@
             font-weight: 300;
         }
 
+        /* Connect / How it works */
+        .connect {
+            padding: 72px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .connect h2 {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.8px;
+            color: var(--heading);
+            margin-bottom: 12px;
+        }
+
+        .connect-sub {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.7;
+            font-weight: 300;
+            max-width: 520px;
+            margin-bottom: 48px;
+        }
+
+        .connect-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .connect-tile {
+            flex: 1 1 0;
+            max-width: 240px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            background: linear-gradient(160deg, #151515, #0b0b0b);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .connect-logo-fr {
+            width: 100%;
+            max-width: 160px;
+            height: auto;
+        }
+
+        .connect-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 26px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .connect-mark {
+            height: 34px;
+            width: auto;
+            display: block;
+        }
+
+        .connect-arrow {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 96px;
+        }
+
+        .connect-arrow-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--green);
+            white-space: nowrap;
+        }
+
+        .connect-track {
+            position: relative;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--green-border), var(--green));
+            border-radius: 2px;
+        }
+
+        .connect-track::after {
+            content: "";
+            position: absolute;
+            right: -1px;
+            top: 50%;
+            width: 7px;
+            height: 7px;
+            border-top: 2px solid var(--green);
+            border-right: 2px solid var(--green);
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .connect-pulse {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            transform: translateY(-50%);
+            animation: connectFlow 1.8s ease-in-out infinite;
+        }
+
+        @keyframes connectFlow {
+            0%   { left: 0;    opacity: 0; }
+            15%  { opacity: 1; }
+            85%  { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        @keyframes connectFlowV {
+            0%   { top: 0;    opacity: 0; }
+            15%  { opacity: 1; }
+            85%  { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
         /* Waitlist form */
         .waitlist {
             padding: 72px 0 96px;
@@ -701,6 +833,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .marquee.is-ready .marquee-track { animation: none; }
+            .connect-pulse { animation: none; }
         }
 
         @media (max-width: 560px) {
@@ -710,4 +843,26 @@
             .marquee-card { font-size: 13px; padding: 11px 16px 11px 11px; }
             .marquee-card .ic { width: 30px; height: 30px; }
             .marquee-card .ic svg { width: 15px; height: 15px; }
+
+            .connect-flow { flex-direction: column; }
+            .connect-tile { width: 100%; max-width: 300px; aspect-ratio: 16 / 9; }
+            .connect-arrow { flex-direction: row; width: auto; height: 44px; }
+            .connect-arrow-label { order: 2; }
+            .connect-track {
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(180deg, var(--green-border), var(--green));
+            }
+            .connect-track::after {
+                right: 50%;
+                top: auto;
+                bottom: -1px;
+                transform: translateX(50%) rotate(135deg);
+            }
+            .connect-pulse {
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                animation: connectFlowV 1.8s ease-in-out infinite;
+            }
         }
