@@ -75,6 +75,9 @@
            ============================================================ */
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* Honor the hidden attribute even on elements given an explicit display */
+        [hidden] { display: none !important; }
+
         html { scroll-behavior: smooth; }
 
         body {
@@ -675,6 +678,245 @@
         .reconcile-tag .chk { color: var(--green-text); }
 
         /* ============================================================
+           CUSTOMIZE — top-bar controls + co-brand
+           ============================================================ */
+        .topbar-right {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cobrand {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding-right: 12px;
+            border-right: 1px solid var(--border-strong);
+        }
+        .cobrand-label {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 9.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--faint);
+            white-space: nowrap;
+        }
+        .cobrand-logo {
+            height: 22px;
+            width: auto;
+            max-width: 130px;
+            object-fit: contain;
+            display: block;
+        }
+        .cobrand-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--heading);
+            white-space: nowrap;
+        }
+
+        .gear-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px; height: 34px;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            color: var(--muted);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .gear-btn:hover { border-color: var(--border-hover); color: var(--text); }
+        .gear-btn svg { width: 16px; height: 16px; display: block; }
+
+        /* ============================================================
+           CUSTOMIZE — slide-over drawer
+           ============================================================ */
+        .cz-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 40;
+        }
+        .cz-overlay.show { opacity: 1; pointer-events: auto; }
+
+        .cz-drawer {
+            position: fixed;
+            top: 0; right: 0;
+            height: 100%;
+            width: 380px;
+            max-width: 92vw;
+            background: var(--surface);
+            border-left: 1px solid var(--border-strong);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.24s ease;
+        }
+        .cz-drawer.open { transform: translateX(0); }
+
+        .cz-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .cz-title { font-size: 14px; font-weight: 600; color: var(--heading); }
+        .cz-close {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+        }
+        .cz-close:hover { color: var(--text); }
+
+        .cz-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .cz-field { display: flex; flex-direction: column; gap: 9px; }
+        .cz-label {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--faint);
+        }
+        .cz-field input[type="text"] {
+            font-family: 'Sora', sans-serif;
+            font-size: 13px;
+            color: var(--text);
+            background: var(--surface-inset);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            padding: 10px 12px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .cz-field input[type="text"]:focus { border-color: var(--green); }
+
+        /* Logo drop zone */
+        .cz-drop {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 64px;
+            padding: 12px;
+            border: 1px dashed var(--border-hover);
+            border-radius: 9px;
+            background: var(--surface-inset);
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .cz-drop:hover, .cz-drop.drag { border-color: var(--green); background: var(--green-soft); }
+        .cz-drop-text { font-size: 12px; color: var(--muted); }
+        .cz-drop-preview { max-height: 40px; max-width: 100%; object-fit: contain; display: block; }
+        .cz-clear {
+            align-self: flex-start;
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 11px;
+            cursor: pointer;
+            padding: 2px 0;
+            text-decoration: underline;
+        }
+        .cz-clear:hover { color: var(--red); }
+
+        /* Accent picker */
+        .cz-accent { display: flex; align-items: center; gap: 12px; }
+        .cz-accent input[type="color"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 38px; height: 34px;
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            background: var(--surface-inset);
+            padding: 3px;
+            cursor: pointer;
+        }
+        .cz-accent input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        .cz-accent input[type="color"]::-webkit-color-swatch { border: none; border-radius: 5px; }
+        .cz-accent input[type="color"]::-moz-color-swatch { border: none; border-radius: 5px; }
+        .cz-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+        .cz-swatch {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            background: var(--sw);
+            border: 2px solid transparent;
+            box-shadow: 0 0 0 1px var(--border-strong);
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.12s;
+        }
+        .cz-swatch:hover { transform: scale(1.1); }
+        .cz-swatch.sel { box-shadow: 0 0 0 2px var(--text); }
+
+        /* Rate tiers */
+        .cz-rates { display: flex; flex-direction: column; gap: 8px; }
+        .cz-rate-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .cz-rate-label { font-size: 12.5px; color: var(--text); }
+        .cz-rate-input { display: inline-flex; align-items: center; gap: 6px; }
+        .cz-rate-input input {
+            width: 58px;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 13px;
+            color: var(--text);
+            background: var(--surface-inset);
+            border: 1px solid var(--border-strong);
+            border-radius: 7px;
+            padding: 7px 9px;
+            text-align: right;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .cz-rate-input input:focus { border-color: var(--green); }
+        .cz-pct { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; color: var(--muted); }
+
+        .cz-foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+        }
+        .cz-reset {
+            background: transparent;
+            border: 1px solid var(--border-strong);
+            color: var(--muted);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 11.5px;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .cz-reset:hover { border-color: var(--border-hover); color: var(--text); }
+        .cz-saved { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; color: var(--faint); }
+
+        /* ============================================================
            ANIMATION
            ============================================================ */
         @keyframes fadeUp {
@@ -706,7 +948,8 @@
            PRINT (light mailer)
            ============================================================ */
         @media print {
-            .topbar, .back-btn, .rep-select-wrap, .row-arrow { display: none !important; }
+            .topbar, .back-btn, .rep-select-wrap, .row-arrow,
+            .cz-drawer, .cz-overlay { display: none !important; }
             body::before { display: none; }
             .screen { display: none !important; padding: 0; }
             .screen.active { display: block !important; }
@@ -724,10 +967,20 @@
                 <b>rastro<span class="dot">.</span></b>
                 <span class="logo-badge">Demo</span>
             </a>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
-                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
-            </button>
+            <div class="topbar-right">
+                <div class="cobrand" id="cobrand" hidden>
+                    <span class="cobrand-label">Prepared for</span>
+                    <img class="cobrand-logo" id="cobrandLogo" alt="" hidden>
+                    <span class="cobrand-name" id="cobrandName" hidden></span>
+                </div>
+                <button class="gear-btn" id="gearBtn" aria-label="Customize demo" title="Customize demo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                </button>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -846,10 +1099,53 @@
         </div>
     </section>
 
+    <!-- ============================ CUSTOMIZE PANEL ============================ -->
+    <div class="cz-overlay" id="czOverlay"></div>
+    <aside class="cz-drawer" id="czDrawer" aria-hidden="true" aria-label="Customize demo">
+        <div class="cz-head">
+            <span class="cz-title">Customize demo</span>
+            <button class="cz-close" id="czClose" aria-label="Close">✕</button>
+        </div>
+        <div class="cz-body">
+            <div class="cz-field">
+                <label class="cz-label" for="czCompany">Company name</label>
+                <input type="text" id="czCompany" placeholder="e.g. Acme Pest Control" autocomplete="off" spellcheck="false">
+            </div>
+
+            <div class="cz-field">
+                <span class="cz-label">Client logo</span>
+                <label class="cz-drop" id="czDrop">
+                    <input type="file" id="czLogoInput" accept="image/*" hidden>
+                    <span class="cz-drop-text" id="czDropText">Drop a logo or click to upload</span>
+                    <img class="cz-drop-preview" id="czLogoPreview" alt="" hidden>
+                </label>
+                <button class="cz-clear" id="czLogoClear" hidden>Remove logo</button>
+            </div>
+
+            <div class="cz-field">
+                <span class="cz-label">Accent color</span>
+                <div class="cz-accent">
+                    <input type="color" id="czAccent" value="#22c55e" aria-label="Accent color">
+                    <div class="cz-swatches" id="czSwatches"></div>
+                </div>
+            </div>
+
+            <div class="cz-field">
+                <span class="cz-label">Commission rate tiers</span>
+                <div class="cz-rates" id="czRates"></div>
+            </div>
+        </div>
+        <div class="cz-foot">
+            <button class="cz-reset" id="czReset">Reset to default</button>
+            <span class="cz-saved">Saved to this browser</span>
+        </div>
+    </aside>
+
     <script>
         /* ============================================================
-           DATA — hardcoded, pre-reconciled with the spec.
-           Only Live Preview derives sub-figures from these values.
+           DATA — per-rep facts are fixed; rate / earned / net are
+           DERIVED from the (customizable) tier rates so the demo can
+           be tailored live. Live Preview derives sub-figures too.
            ============================================================ */
         const COMPANY = {
             avgContractValue: 1600,
@@ -858,28 +1154,78 @@
             schedule: { initial: 50, backend1: 20, backend2: 30 } // % of earned
         };
 
-        // Exact figures from the spec table (Screen 1). Do not recompute.
+        // Fixed per-rep facts. rate / earned / net are derived from the
+        // customizable tier rates below (defaults reproduce the spec table exactly).
         const REPS = [
-            { id: 'tom',    name: 'Tom Brady',      accounts: 42, rate: 10, earned: 6720, clawbacks: -160, net: 6560, cancellations: 1 },
-            { id: 'jerry',  name: 'Jerry Rice',     accounts: 38, rate: 9,  earned: 5472, clawbacks: -288, net: 5184, cancellations: 2 },
-            { id: 'ray',    name: 'Ray Lewis',      accounts: 31, rate: 9,  earned: 4464, clawbacks: -144, net: 4320, cancellations: 1 },
-            { id: 'peyton', name: 'Peyton Manning', accounts: 27, rate: 8,  earned: 3456, clawbacks: 0,    net: 3456, cancellations: 0 },
-            { id: 'randy',  name: 'Randy Moss',     accounts: 19, rate: 7,  earned: 2128, clawbacks: -112, net: 2016, cancellations: 1 },
+            { id: 'tom',    name: 'Tom Brady',      accounts: 42, clawbacks: -160, cancellations: 1 },
+            { id: 'jerry',  name: 'Jerry Rice',     accounts: 38, clawbacks: -288, cancellations: 2 },
+            { id: 'ray',    name: 'Ray Lewis',      accounts: 31, clawbacks: -144, cancellations: 1 },
+            { id: 'peyton', name: 'Peyton Manning', accounts: 27, clawbacks: 0,    cancellations: 0 },
+            { id: 'randy',  name: 'Randy Moss',     accounts: 19, clawbacks: -112, cancellations: 1 },
         ];
+
+        /* ============================================================
+           CUSTOMIZATION STATE — persisted per-browser (localStorage).
+           Only affects this browser; the public URL stays the default.
+           ============================================================ */
+        const STORE_KEY = 'rastro-demo-config';
+        const DEFAULT_ACCENT = '#22c55e';
+        const DEFAULT_TIERS = [
+            { min: 0,  max: 19,  rate: 7 },
+            { min: 20, max: 29,  rate: 8 },
+            { min: 30, max: 39,  rate: 9 },
+            { min: 40, max: 999, rate: 10 },
+        ];
+        const ACCENT_PRESETS = ['#22c55e', '#3b82f6', '#6366f1', '#14b8a6', '#f97316', '#ef4444'];
+
+        const defaultConfig = () => ({ companyName: '', logo: null, accent: null, tiers: DEFAULT_TIERS.map(t => ({ ...t })) });
+        let CONFIG = defaultConfig();
+        let currentRepId = REPS[0].id;
+
+        const clampRate = v => { const n = Number(v); return isFinite(n) ? Math.max(0, Math.min(100, n)) : 0; };
+
+        function loadConfig() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+                if (!saved) return;
+                CONFIG = {
+                    companyName: typeof saved.companyName === 'string' ? saved.companyName : '',
+                    logo: typeof saved.logo === 'string' ? saved.logo : null,
+                    accent: typeof saved.accent === 'string' ? saved.accent : null,
+                    tiers: (Array.isArray(saved.tiers) && saved.tiers.length === DEFAULT_TIERS.length)
+                        ? DEFAULT_TIERS.map((t, i) => ({ min: t.min, max: t.max, rate: clampRate(saved.tiers[i] && saved.tiers[i].rate) }))
+                        : DEFAULT_TIERS.map(t => ({ ...t })),
+                };
+            } catch (e) {}
+        }
+        function saveConfig() { try { localStorage.setItem(STORE_KEY, JSON.stringify(CONFIG)); } catch (e) {} }
 
         /* ---------------------------- helpers ---------------------------- */
         const money = n => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
         const initials = name => name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
         const isQualified = rep => rep.accounts >= COMPANY.housingThreshold;
 
-        // Derived preview figures for a rep (kept consistent with hardcoded earned/net).
+        // Rate / earned / net derived from the current tier config.
+        const rateFor   = accounts => (CONFIG.tiers.find(t => accounts >= t.min && accounts <= t.max) || CONFIG.tiers[CONFIG.tiers.length - 1]).rate;
+        const earnedFor  = rep => Math.round(rep.accounts * COMPANY.avgContractValue * rateFor(rep.accounts) / 100);
+        const netFor     = rep => earnedFor(rep) + rep.clawbacks;
+
+        function rangeLabel(t) {
+            if (t.min === 0)  return `Under ${t.max + 1} accounts`;
+            if (t.max >= 999) return `${t.min}+ accounts`;
+            return `${t.min}–${t.max} accounts`;
+        }
+
+        // Derived preview figures for a rep.
         function derive(rep) {
+            const earned = earnedFor(rep);
             const contractValue = rep.accounts * COMPANY.avgContractValue;
             return {
+                earned,
                 contractValue,
-                initial:  rep.earned * COMPANY.schedule.initial  / 100,
-                backend1: rep.earned * COMPANY.schedule.backend1 / 100,
-                backend2: rep.earned * COMPANY.schedule.backend2 / 100,
+                initial:  earned * COMPANY.schedule.initial  / 100,
+                backend1: earned * COMPANY.schedule.backend1 / 100,
+                backend2: earned * COMPANY.schedule.backend2 / 100,
                 override: contractValue * COMPANY.managerOverridePct / 100,
             };
         }
@@ -909,10 +1255,10 @@
                         <span class="rep-name"><span class="rep-avatar">${initials(rep.name)}</span>${rep.name}</span>
                     </td>
                     <td>${rep.accounts}</td>
-                    <td class="num-muted">${rep.rate}%</td>
-                    <td>${money(rep.earned)}</td>
+                    <td class="num-muted">${rateFor(rep.accounts)}%</td>
+                    <td>${money(earnedFor(rep))}</td>
                     <td>${clawbackCellHTML(rep)}</td>
-                    <td class="num-net">${money(rep.net)} <span class="row-arrow">→</span></td>
+                    <td class="num-net">${money(netFor(rep))} <span class="row-arrow">→</span></td>
                     <td>${housingCellHTML(rep)}</td>
                 </tr>
             `).join('');
@@ -925,16 +1271,19 @@
                 });
             });
 
-            const total = REPS.reduce((s, r) => s + r.net, 0);
+            const total = REPS.reduce((s, r) => s + netFor(r), 0);
             document.getElementById('totalNet').textContent = money(total);
         }
 
         /* ---------------------------- rep detail ---------------------------- */
-        function renderTiers(rep) {
-            document.querySelectorAll('#tierList .tier').forEach(t => {
-                const min = +t.dataset.min, max = +t.dataset.max;
-                t.classList.toggle('active', rep.accounts >= min && rep.accounts <= max);
-            });
+        function renderTierList(rep) {
+            document.getElementById('tierList').innerHTML = CONFIG.tiers.map(t => {
+                const active = rep.accounts >= t.min && rep.accounts <= t.max;
+                return `<div class="tier${active ? ' active' : ''}">
+                            <span class="tier-range">${rangeLabel(t)}</span>
+                            <span><span class="tier-rate">${t.rate}%</span>${active ? '<span class="tier-flag">◂ active</span>' : ''}</span>
+                        </div>`;
+            }).join('');
         }
 
         function renderPreview(rep) {
@@ -951,13 +1300,13 @@
             document.getElementById('previewTable').innerHTML = `
                 <tr><td class="k">Accounts sold</td><td class="v">${rep.accounts}</td></tr>
                 <tr><td class="k">Total contract value</td><td class="v">${money(d.contractValue)}</td></tr>
-                <tr><td class="k">Commission rate</td><td class="v">${rep.rate}%</td></tr>
-                <tr><td class="k">Total commission (earned)</td><td class="v">${money(rep.earned)}</td></tr>
+                <tr><td class="k">Commission rate</td><td class="v">${rateFor(rep.accounts)}%</td></tr>
+                <tr><td class="k">Total commission (earned)</td><td class="v">${money(d.earned)}</td></tr>
                 <tr class="sub"><td class="k">Initial payout (50%)</td><td class="v">${money(d.initial)}</td></tr>
                 <tr class="sub"><td class="k">Backend 1 — Oct (20%)</td><td class="v">${money(d.backend1)}</td></tr>
                 <tr class="sub"><td class="k">Backend 2 — Jan (30%)</td><td class="v">${money(d.backend2)}</td></tr>
                 <tr><td class="k">${clawLabel}</td>${clawVal}</tr>
-                <tr class="net-row"><td class="k">Net rep payout</td><td class="v">${money(rep.net)}</td></tr>
+                <tr class="net-row"><td class="k">Net rep payout</td><td class="v">${money(netFor(rep))}</td></tr>
             `;
 
             // Housing status line
@@ -976,7 +1325,7 @@
                 `Manager override generated: <span class="calc">${COMPANY.managerOverridePct}% × ${money(d.contractValue)} = ${money(d.override)}</span> `
                 + `<span class="aside">(paid to this rep's manager, not deducted from ${rep.name}'s payout above)</span>`;
 
-            renderTiers(rep);
+            renderTierList(rep);
         }
 
         function renderRepSelect(activeId) {
@@ -994,9 +1343,136 @@
 
         function openDetail(repId) {
             const rep = REPS.find(r => r.id === repId) || REPS[0];
+            currentRepId = rep.id;
             renderRepSelect(rep.id);
             renderPreview(rep);
             showScreen('screen-detail');
+        }
+
+        // Re-render everything that depends on customizable state.
+        function refreshData() {
+            renderDashboard();
+            renderPreview(REPS.find(r => r.id === currentRepId) || REPS[0]);
+        }
+
+        /* ---------------------------- theme ---------------------------- */
+        function setTheme(t) {
+            document.documentElement.setAttribute('data-theme', t);
+            try { localStorage.setItem('rastro-theme', t); } catch (e) {}
+        }
+
+        /* ============================================================
+           CUSTOMIZATION — accent, co-brand logo, rate editing
+           ============================================================ */
+        function hexToRgb(hex) {
+            const h = hex.replace('#', '');
+            const v = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+            const int = parseInt(v, 16);
+            return { r: (int >> 16) & 255, g: (int >> 8) & 255, b: int & 255 };
+        }
+        const rgba = (hex, a) => { const c = hexToRgb(hex); return `rgba(${c.r}, ${c.g}, ${c.b}, ${a})`; };
+
+        // Recolor the whole green token system from a hex (null = restore theme default).
+        function applyAccent(hex) {
+            const root = document.documentElement;
+            const props = ['--green', '--green-text', '--green-soft', '--green-line'];
+            if (!hex) { props.forEach(p => root.style.removeProperty(p)); return; }
+            root.style.setProperty('--green', hex);
+            root.style.setProperty('--green-text', hex);
+            root.style.setProperty('--green-soft', rgba(hex, 0.14));
+            root.style.setProperty('--green-line', rgba(hex, 0.30));
+            // --glow references var(--green), so it follows automatically.
+        }
+
+        // Co-brand ("Prepared for [client]") in the top bar.
+        function applyCobrand() {
+            const wrap = document.getElementById('cobrand');
+            const img  = document.getElementById('cobrandLogo');
+            const name = document.getElementById('cobrandName');
+            const hasLogo = !!CONFIG.logo;
+            const hasName = !!CONFIG.companyName.trim();
+            if (!hasLogo && !hasName) { wrap.hidden = true; return; }
+            wrap.hidden = false;
+            if (hasLogo) { img.src = CONFIG.logo; img.alt = CONFIG.companyName || 'Client logo'; img.hidden = false; }
+            else { img.removeAttribute('src'); img.hidden = true; }
+            name.textContent = CONFIG.companyName || '';
+            name.hidden = !hasName;
+        }
+
+        // Push all persisted state into the live UI.
+        function applyConfig() {
+            applyAccent(CONFIG.accent);
+            applyCobrand();
+            refreshData();
+        }
+
+        /* ---- panel controls ---- */
+        const $ = id => document.getElementById(id);
+
+        function renderSwatches() {
+            $('czSwatches').innerHTML = ACCENT_PRESETS
+                .map(c => `<button type="button" class="cz-swatch" data-color="${c}" style="--sw:${c}" aria-label="Accent ${c}"></button>`)
+                .join('');
+            $('czSwatches').querySelectorAll('.cz-swatch').forEach(b =>
+                b.addEventListener('click', () => setAccent(b.dataset.color)));
+        }
+        function updateSwatchSelection() {
+            const cur = (CONFIG.accent || DEFAULT_ACCENT).toLowerCase();
+            document.querySelectorAll('#czSwatches .cz-swatch').forEach(b =>
+                b.classList.toggle('sel', b.dataset.color.toLowerCase() === cur));
+        }
+        function setAccent(hex) {
+            CONFIG.accent = hex.toLowerCase() === DEFAULT_ACCENT.toLowerCase() ? null : hex;
+            saveConfig();
+            applyAccent(CONFIG.accent);
+            $('czAccent').value = hex;
+            updateSwatchSelection();
+        }
+
+        function renderRateInputs() {
+            $('czRates').innerHTML = CONFIG.tiers.map((t, i) => `
+                <div class="cz-rate-row">
+                    <span class="cz-rate-label">${rangeLabel(t)}</span>
+                    <span class="cz-rate-input"><input type="number" id="czRate${i}" min="0" max="100" step="0.5" value="${t.rate}"><span class="cz-pct">%</span></span>
+                </div>`).join('');
+            CONFIG.tiers.forEach((t, i) => {
+                $('czRate' + i).addEventListener('input', e => {
+                    CONFIG.tiers[i].rate = clampRate(e.target.value);
+                    saveConfig();
+                    refreshData();
+                });
+            });
+        }
+
+        function syncPanelInputs() {
+            $('czCompany').value = CONFIG.companyName;
+            const hasLogo = !!CONFIG.logo;
+            $('czLogoPreview').hidden = !hasLogo;
+            if (hasLogo) $('czLogoPreview').src = CONFIG.logo; else $('czLogoPreview').removeAttribute('src');
+            $('czDropText').hidden = hasLogo;
+            $('czLogoClear').hidden = !hasLogo;
+            $('czAccent').value = CONFIG.accent || DEFAULT_ACCENT;
+            CONFIG.tiers.forEach((t, i) => { const inp = $('czRate' + i); if (inp) inp.value = t.rate; });
+            updateSwatchSelection();
+        }
+
+        function readLogoFile(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = () => { CONFIG.logo = reader.result; saveConfig(); applyCobrand(); syncPanelInputs(); };
+            reader.readAsDataURL(file);
+        }
+
+        /* ---- drawer open/close ---- */
+        function openPanel() {
+            $('czDrawer').classList.add('open');
+            $('czDrawer').setAttribute('aria-hidden', 'false');
+            $('czOverlay').classList.add('show');
+        }
+        function closePanel() {
+            $('czDrawer').classList.remove('open');
+            $('czDrawer').setAttribute('aria-hidden', 'true');
+            $('czOverlay').classList.remove('show');
         }
 
         /* ---------------------------- theme ---------------------------- */
@@ -1006,24 +1482,58 @@
         }
 
         /* ---------------------------- wire up ---------------------------- */
-        document.getElementById('themeToggle').addEventListener('click', () => {
+        $('themeToggle').addEventListener('click', () => {
             const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
             setTheme(current === 'dark' ? 'light' : 'dark');
         });
-        document.getElementById('backBtn').addEventListener('click', () => showScreen('screen-dashboard'));
-        document.getElementById('repSelect').addEventListener('change', e => {
-            const rep = REPS.find(r => r.id === e.target.value);
-            renderPreview(rep);
+        $('backBtn').addEventListener('click', () => showScreen('screen-dashboard'));
+        $('repSelect').addEventListener('change', e => {
+            currentRepId = e.target.value;
+            renderPreview(REPS.find(r => r.id === currentRepId));
         });
-        document.getElementById('clawbackSwitch').addEventListener('click', e => {
+        $('clawbackSwitch').addEventListener('click', e => {
             const btn = e.currentTarget;
             btn.setAttribute('aria-checked', btn.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
         });
 
-        // init
-        renderDashboard();
-        renderRepSelect('tom');
-        renderPreview(REPS[0]);
+        // Customize panel
+        $('gearBtn').addEventListener('click', openPanel);
+        $('czClose').addEventListener('click', closePanel);
+        $('czOverlay').addEventListener('click', closePanel);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+        $('czCompany').addEventListener('input', e => { CONFIG.companyName = e.target.value; saveConfig(); applyCobrand(); });
+        $('czAccent').addEventListener('input', e => setAccent(e.target.value));
+        $('czLogoInput').addEventListener('change', e => readLogoFile(e.target.files[0]));
+        $('czLogoClear').addEventListener('click', e => {
+            e.preventDefault();
+            CONFIG.logo = null; saveConfig(); applyCobrand(); syncPanelInputs();
+        });
+
+        const dropZone = $('czDrop');
+        ['dragover', 'dragenter'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('drag'); }));
+        ['dragleave', 'dragend'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('drag'); }));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('drag');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) readLogoFile(e.dataTransfer.files[0]);
+        });
+
+        $('czReset').addEventListener('click', () => {
+            try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+            CONFIG = defaultConfig();
+            applyConfig();
+            renderRateInputs();
+            syncPanelInputs();
+        });
+
+        /* ---------------------------- init ---------------------------- */
+        loadConfig();
+        renderSwatches();
+        renderRateInputs();
+        renderRepSelect(currentRepId);
+        applyConfig();       // accent + co-brand + dashboard/preview render
+        syncPanelInputs();
     </script>
 </body>
 </html>
