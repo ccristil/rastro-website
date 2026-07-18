@@ -1,352 +1,766 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
+  <head>
     <script>
-        // Apply saved theme before paint to avoid a flash of the wrong theme
-        try { var t = localStorage.getItem('rastro-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+      // Apply saved theme before paint to avoid a flash of the wrong theme
+      try {
+        var t = localStorage.getItem("rastro-theme");
+        if (t === "light" || t === "dark")
+          document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rastro — Commission tracking built for FieldRoutes.</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="assets/css/site.css">
-    <link rel="alternate" type="text/plain" title="LLM-friendly overview" href="https://ccristil.github.io/rastro-website/llms.txt">
-</head>
-<body>
-
-<!-- Nav -->
-<nav>
-    <div class="inner">
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="assets/css/site.css" />
+    <link
+      rel="alternate"
+      type="text/plain"
+      title="LLM-friendly overview"
+      href="https://ccristil.github.io/rastro-website/llms.txt"
+    />
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav>
+      <div class="inner">
         <div class="logo">
-            <img src="assets/Rastro%20Logo%20Green.svg" alt="Rastro" class="logo-mark">
-            <span class="logo-word">rastro<span class="logo-dot">.</span></span>
+          <img
+            src="assets/Rastro%20Logo%20Green.svg"
+            alt="Rastro"
+            class="logo-mark"
+          />
+          <span class="logo-word">rastro<span class="logo-dot">.</span></span>
         </div>
         <div class="nav-right">
-            <span class="nav-badge">Early Access</span>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
-                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
-            </button>
+          <span class="nav-badge">Early Access</span>
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            aria-label="Toggle light/dark theme"
+            title="Toggle theme"
+          >
+            <svg
+              class="icon-moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg
+              class="icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="4"></circle>
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              ></path>
+            </svg>
+          </button>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<!-- Hero -->
-<section class="hero">
-    <div class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
         <div class="hero-eyebrow">FieldRoutes Native</div>
-        <h1>Commission tracking<br>built for <em>FieldRoutes.</em></h1>
+        <h1>Commission tracking<br />built for <em>FieldRoutes.</em></h1>
         <p class="hero-sub">
-            Stop building commission spreadsheets. Rastro automatically syncs with FieldRoutes and handles every edge case — cancellations, overrides, backends, and housing thresholds — so your reps always know exactly where they stand.
+          Stop building commission spreadsheets. Rastro automatically syncs with
+          FieldRoutes and handles every edge case — cancellations, overrides,
+          backends, and housing thresholds — so your reps always know exactly
+          where they stand.
         </p>
         <div class="hero-cta">
-            <a href="#waitlist" class="btn-primary">Join the waitlist</a>
-            <a href="#features" class="btn-ghost">See how it works</a>
+          <a href="#waitlist" class="btn-primary">Join the waitlist</a>
+          <a href="#features" class="btn-ghost">See how it works</a>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Complicated (sliding cards) -->
-<section class="complicated">
-    <div class="container">
+    <!-- Complicated (sliding cards) -->
+    <section class="complicated">
+      <div class="container">
         <div class="section-label">The problem</div>
-        <h2>Commission tracking is <em>complicated.</em></h2>
-    </div>
-    <div class="marquee" aria-hidden="true">
+        <h2>Commission tracking can be a <em>rat's nest.</em></h2>
+      </div>
+      <div class="marquee" aria-hidden="true">
         <!-- Row 1 → slides left -->
         <div class="marquee-row">
-            <div class="marquee-track marquee-left">
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>What did I make this week?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg></span>Did that cancel hit my check?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>Who gets the override?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span>Am I still hitting housing?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>When do I actually get paid?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></span>What's my backend at?</div>
+          <div class="marquee-track marquee-left">
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path
+                    d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                  ></path></svg></span
+              >What did I make this week?
             </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="1 4 1 10 7 10"></polyline>
+                  <path
+                    d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
+                  ></path></svg></span
+              >Did that cancel hit my check?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span
+              >Who gets the override?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                  ></path>
+                  <polyline
+                    points="9 22 9 12 15 12 15 22"
+                  ></polyline></svg></span
+              >Am I still hitting housing?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline></svg></span
+              >When do I actually get paid?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                  <polyline points="17 6 23 6 23 12"></polyline></svg></span
+              >What's my backend at?
+            </div>
+          </div>
         </div>
         <!-- Row 2 → slides right -->
         <div class="marquee-row">
-            <div class="marquee-track marquee-right">
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>Why doesn't FieldRoutes match?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg></span>What's my real commission rate?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></span>How much do I owe my reps?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg></span>Did the clawback apply?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></span>Is the spreadsheet even right?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span>Which accounts count toward goal?</div>
+          <div class="marquee-track marquee-right">
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span
+              >Why doesn't FieldRoutes match?
             </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="19" y1="5" x2="5" y2="19"></line>
+                  <circle cx="6.5" cy="6.5" r="2.5"></circle>
+                  <circle cx="17.5" cy="17.5" r="2.5"></circle></svg></span
+              >What's my real commission rate?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+                  <path
+                    d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
+                  ></path></svg></span
+              >How much do I owe my reps?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="1 4 1 10 7 10"></polyline>
+                  <path
+                    d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
+                  ></path></svg></span
+              >Did the clawback apply?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  ></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline></svg></span
+              >Is the spreadsheet even right?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="6"></circle>
+                  <circle cx="12" cy="12" r="2"></circle></svg></span
+              >Which accounts count toward goal?
+            </div>
+          </div>
         </div>
         <!-- Row 3 → slides left -->
         <div class="marquee-row">
-            <div class="marquee-track marquee-left-2">
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg></span>Did the sync run today?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></span>What changed since last week?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg></span>Where's the money going?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>What's pending vs. paid?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>Who's above their threshold?</div>
-                <div class="marquee-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span>Did we lose the housing bonus?</div>
+          <div class="marquee-track marquee-left-2">
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <polyline points="1 20 1 14 7 14"></polyline>
+                  <path
+                    d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                  ></path></svg></span
+              >Did the sync run today?
             </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline
+                    points="22 12 18 12 15 21 9 3 6 12 2 12"
+                  ></polyline></svg></span
+              >What changed since last week?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                  <path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg></span
+              >Where's the money going?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path
+                    d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                  ></path></svg></span
+              >What's pending vs. paid?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span
+              >Who's above their threshold?
+            </div>
+            <div class="marquee-card">
+              <span class="ic"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                  ></path>
+                  <polyline
+                    points="9 22 9 12 15 12 15 22"
+                  ></polyline></svg></span
+              >Did we lose the housing bonus?
+            </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Pain Points -->
-<section class="pain">
-    <div class="container">
+    <!-- Pain Points -->
+    <section class="pain">
+      <div class="container">
         <div class="section-label">Sound familiar?</div>
         <div class="pain-list">
-            <div class="pain-item">
-                <span class="pain-icon">📊</span>
-                <span>You're manually updating Excel sheets to match commission rates with each rep — and one wrong lookup breaks everything.</span>
-            </div>
-            <div class="pain-item">
-                <span class="pain-icon">📞</span>
-                <span>Reps are texting you asking what they made this week. You don't have a clean answer because the cancellations haven't been accounted for yet.</span>
-            </div>
-            <div class="pain-item">
-                <span class="pain-icon">🏠</span>
-                <span>A rep hit their housing revenue threshold, then cancellations pulled them back under it. Now you're manually figuring out what they owe back.</span>
-            </div>
-            <div class="pain-item">
-                <span class="pain-icon">💸</span>
-                <span>FieldRoutes' commission tab gives you ballpark numbers — but it doesn't handle your override structure, backend splits, or clawbacks correctly.</span>
-            </div>
+          <div class="pain-item">
+            <span class="pain-icon">📊</span>
+            <span
+              >You're manually updating Excel sheets to match commission rates
+              with each rep — and one wrong lookup breaks everything.</span
+            >
+          </div>
+          <div class="pain-item">
+            <span class="pain-icon">📞</span>
+            <span
+              >Reps are texting you asking what they made this week. You don't
+              have a clean answer because the cancellations haven't been
+              accounted for yet.</span
+            >
+          </div>
+          <div class="pain-item">
+            <span class="pain-icon">🏠</span>
+            <span
+              >A rep hit their housing revenue threshold, then cancellations
+              pulled them back under it. Now you're manually figuring out what
+              they owe back.</span
+            >
+          </div>
+          <div class="pain-item">
+            <span class="pain-icon">💸</span>
+            <span
+              >FieldRoutes' commission tab gives you ballpark numbers — but it
+              doesn't handle your override structure, backend splits, or
+              clawbacks correctly.</span
+            >
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Features -->
-<section class="features" id="features">
-    <div class="container">
+    <!-- Features -->
+    <section class="features" id="features">
+      <div class="container">
         <div class="section-label">What Rastro handles</div>
         <h2>Built for how sales commissions actually work.</h2>
-        <p class="features-sub">Not how a generic SaaS tool thinks they work.</p>
+        <p class="features-sub">
+          Not how a generic SaaS tool thinks they work.
+        </p>
         <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-dot"></div>
-                <h3>FR Sync</h3>
-                <p>Automatically pulls rep, customer, and transaction data directly from your FieldRoutes account. No CSV exports.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-dot"></div>
-                <h3>Per-Rep Commission Rates</h3>
-                <p>Configure a unique commission percentage for each rep. Changes apply retroactively or from a set date — your call.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-dot"></div>
-                <h3>Cancellation Clawbacks</h3>
-                <p>When an account cancels, Rastro recalculates that rep's commission automatically. No manual adjustments.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-dot"></div>
-                <h3>Manager Overrides</h3>
-                <p>Set manager override percentages that automatically roll up from rep-level sales. Multi-tier support included.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-dot"></div>
-                <h3>Backend Tracker</h3>
-                <p>Reps see their current, past, and projected backend payouts — updated in real time as cancellations come in.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-dot"></div>
-                <h3>Housing Goal Logic</h3>
-                <p>Handles the edge case where a rep earns housing but loses it after cancellations. Threshold tracking built in.</p>
-            </div>
+          <div class="feature-card">
+            <div class="feature-dot"></div>
+            <h3>FR Sync</h3>
+            <p>
+              Automatically pulls rep, customer, and transaction data directly
+              from your FieldRoutes account. No CSV exports.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-dot"></div>
+            <h3>Per-Rep Commission Rates</h3>
+            <p>
+              Configure a unique commission percentage for each rep. Changes
+              apply retroactively or from a set date — your call.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-dot"></div>
+            <h3>Cancellation Clawbacks</h3>
+            <p>
+              When an account cancels, Rastro recalculates that rep's commission
+              automatically. No manual adjustments.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-dot"></div>
+            <h3>Manager Overrides</h3>
+            <p>
+              Set manager override percentages that automatically roll up from
+              rep-level sales. Multi-tier support included.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-dot"></div>
+            <h3>Backend Tracker</h3>
+            <p>
+              Reps see their current, past, and projected backend payouts —
+              updated in real time as cancellations come in.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-dot"></div>
+            <h3>Housing Goal Logic</h3>
+            <p>
+              Handles the edge case where a rep earns housing but loses it after
+              cancellations. Threshold tracking built in.
+            </p>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- How it works -->
-<section class="how">
-    <div class="container">
+    <!-- How it works -->
+    <section class="how">
+      <div class="container">
         <div class="section-label">Setup</div>
         <h2>Live in minutes, not weeks.</h2>
         <div class="steps">
-            <div class="step">
-                <div class="step-num">01</div>
-                <div class="step-content">
-                    <h3>Connect your FieldRoutes account</h3>
-                    <p>Paste your FR API key and Rastro starts pulling your reps, customers, and transaction history immediately.</p>
-                </div>
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <h3>Connect your FieldRoutes account</h3>
+              <p>
+                Paste your FR API key and Rastro starts pulling your reps,
+                customers, and transaction history immediately.
+              </p>
             </div>
-            <div class="step">
-                <div class="step-num">02</div>
-                <div class="step-content">
-                    <h3>Configure your commission structure</h3>
-                    <p>Set each rep's rate, manager overrides, backend rules, and housing thresholds using simple toggles. No code required.</p>
-                </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <h3>Configure your commission structure</h3>
+              <p>
+                Set each rep's rate, manager overrides, backend rules, and
+                housing thresholds using simple toggles. No code required.
+              </p>
             </div>
-            <div class="step">
-                <div class="step-num">03</div>
-                <div class="step-content">
-                    <h3>Invite your reps</h3>
-                    <p>Reps get a mobile-friendly view of their own numbers — current earnings, pending backends, and projected payouts.</p>
-                </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <h3>Invite your reps</h3>
+              <p>
+                Reps get a mobile-friendly view of their own numbers — current
+                earnings, pending backends, and projected payouts.
+              </p>
             </div>
-            <div class="step">
-                <div class="step-num">04</div>
-                <div class="step-content">
-                    <h3>Stop answering commission questions</h3>
-                    <p>Your reps have the answers. Your managers have the overrides. You have the full picture. Everyone's aligned.</p>
-                </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <h3>Stop answering commission questions</h3>
+              <p>
+                Your reps have the answers. Your managers have the overrides.
+                You have the full picture. Everyone's aligned.
+              </p>
             </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Waitlist Form -->
-<section class="waitlist" id="waitlist">
-    <div class="container">
+    <!-- Waitlist Form -->
+    <section class="waitlist" id="waitlist">
+      <div class="container">
         <div class="section-label">Early Access</div>
         <h2>Get early access.</h2>
-        <p class="waitlist-sub">Rastro is in active development. Join the waitlist and be first to know when we launch.</p>
+        <p class="waitlist-sub">
+          Rastro is in active development. Join the waitlist and be first to
+          know when we launch.
+        </p>
         <div class="form-card">
-            <div id="form-content">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fullname">Full name</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="John Smith" />
-                    </div>
-                    <div class="form-group">
-                        <label for="company">Company name</label>
-                        <input type="text" id="company" name="company" placeholder="Smith Pest Control" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="email">Work email</label>
-                    <input type="email" id="email" name="email" placeholder="john@smithpest.com" />
-                </div>
-                <div class="form-group" style="margin-bottom:24px;">
-                    <label for="teamsize">Sales team size</label>
-                    <select id="teamsize" name="teamsize">
-                        <option value="" disabled selected>Select team size</option>
-                        <option value="1-5">1–5 reps</option>
-                        <option value="6-15">6–15 reps</option>
-                        <option value="16-30">16–30 reps</option>
-                        <option value="31-50">31–50 reps</option>
-                        <option value="50+">50+ reps</option>
-                    </select>
-                </div>
-                <div class="form-group" style="margin-bottom:24px;">
-                    <label for="comments">Anything else? <span style="opacity:0.45; font-weight:400;">(optional)</span></label>
-                    <textarea id="comments" name="comments" placeholder="Questions, current pain points, how you're tracking commissions today…" rows="3" style="resize:vertical;"></textarea>
-                </div>
-                <button class="btn-primary" style="width:100%; text-align:center;" onclick="handleSubmit()">
-                    Join the waitlist
-                </button>
-                <p class="form-note">No spam. No commitments. We'll reach out when Rastro is ready.</p>
+          <div id="form-content">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullname">Full name</label>
+                <input
+                  type="text"
+                  id="fullname"
+                  name="fullname"
+                  placeholder="John Smith"
+                />
+              </div>
+              <div class="form-group">
+                <label for="company">Company name</label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  placeholder="Smith Pest Control"
+                />
+              </div>
             </div>
-            <div class="success-msg" id="success-msg">
-                <div class="check">✦</div>
-                <h3>You're on the list.</h3>
-                <p>We'll be in touch when Rastro is ready for early access.</p>
+            <div class="form-group">
+              <label for="email">Work email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="john@smithpest.com"
+              />
             </div>
+            <div class="form-group" style="margin-bottom: 24px">
+              <label for="teamsize">Sales team size</label>
+              <select id="teamsize" name="teamsize">
+                <option value="" disabled selected>Select team size</option>
+                <option value="1-5">1–5 reps</option>
+                <option value="6-15">6–15 reps</option>
+                <option value="16-30">16–30 reps</option>
+                <option value="31-50">31–50 reps</option>
+                <option value="50+">50+ reps</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 24px">
+              <label for="comments"
+                >Anything else?
+                <span style="opacity: 0.45; font-weight: 400"
+                  >(optional)</span
+                ></label
+              >
+              <textarea
+                id="comments"
+                name="comments"
+                placeholder="Questions, current pain points, how you're tracking commissions today…"
+                rows="3"
+                style="resize: vertical"
+              ></textarea>
+            </div>
+            <button
+              class="btn-primary"
+              style="width: 100%; text-align: center"
+              onclick="handleSubmit()"
+            >
+              Join the waitlist
+            </button>
+            <p class="form-note">
+              No spam. No commitments. We'll reach out when Rastro is ready.
+            </p>
+          </div>
+          <div class="success-msg" id="success-msg">
+            <div class="check">✦</div>
+            <h3>You're on the list.</h3>
+            <p>We'll be in touch when Rastro is ready for early access.</p>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Footer -->
-<footer>
-    <div class="inner">
+    <!-- Footer -->
+    <footer>
+      <div class="inner">
         <div class="logo">
-            <img src="assets/Rastro%20Logo%20Green.svg" alt="Rastro" class="logo-mark">
-            <span class="logo-word">rastro<span class="logo-dot">.</span></span>
+          <img
+            src="assets/Rastro%20Logo%20Green.svg"
+            alt="Rastro"
+            class="logo-mark"
+          />
+          <span class="logo-word">rastro<span class="logo-dot">.</span></span>
         </div>
         <p class="footer-copy">© 2026 Rastro. All rights reserved.</p>
         <nav class="footer-links">
-            <a href="https://ccristil.github.io/rastro-website/llms.txt">llms.txt</a>
+          <a href="https://ccristil.github.io/rastro-website/llms.txt"
+            >llms.txt</a
+          >
         </nav>
-    </div>
-</footer>
+      </div>
+    </footer>
 
-<script>
-    async function handleSubmit() {
-        const name = document.getElementById('fullname').value.trim();
-        const company = document.getElementById('company').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const teamsize = document.getElementById('teamsize').value;
-        const comments = document.getElementById('comments').value.trim();
+    <script>
+      async function handleSubmit() {
+        const name = document.getElementById("fullname").value.trim();
+        const company = document.getElementById("company").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const teamsize = document.getElementById("teamsize").value;
+        const comments = document.getElementById("comments").value.trim();
 
         if (!name || !company || !email || !teamsize) {
-            alert('Please fill out all fields before submitting.');
-            return;
+          alert("Please fill out all fields before submitting.");
+          return;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address.');
-            return;
+          alert("Please enter a valid email address.");
+          return;
         }
 
-        const btn = document.querySelector('#form-content .btn-primary');
+        const btn = document.querySelector("#form-content .btn-primary");
         btn.disabled = true;
-        btn.textContent = 'Submitting…';
+        btn.textContent = "Submitting…";
 
         try {
-            const response = await fetch('https://formspree.io/f/xeedqeyy', {
-                method: 'POST',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, company, email, teamsize, comments }),
-            });
+          const response = await fetch("https://formspree.io/f/xeedqeyy", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, company, email, teamsize, comments }),
+          });
 
-            if (response.ok) {
-                document.getElementById('form-content').style.display = 'none';
-                document.getElementById('success-msg').style.display = 'block';
-            } else {
-                const data = await response.json();
-                const msg = data?.errors?.map(e => e.message).join(', ') || 'Submission failed. Please try again.';
-                alert(msg);
-                btn.disabled = false;
-                btn.textContent = 'Join the waitlist';
-            }
-        } catch {
-            alert('Network error. Please check your connection and try again.');
+          if (response.ok) {
+            document.getElementById("form-content").style.display = "none";
+            document.getElementById("success-msg").style.display = "block";
+          } else {
+            const data = await response.json();
+            const msg =
+              data?.errors?.map((e) => e.message).join(", ") ||
+              "Submission failed. Please try again.";
+            alert(msg);
             btn.disabled = false;
-            btn.textContent = 'Join the waitlist';
+            btn.textContent = "Join the waitlist";
+          }
+        } catch {
+          alert("Network error. Please check your connection and try again.");
+          btn.disabled = false;
+          btn.textContent = "Join the waitlist";
         }
-    }
+      }
 
-    // Light/dark theme toggle (persisted across pages via localStorage)
-    function setTheme(t) {
-        document.documentElement.setAttribute('data-theme', t);
-        try { localStorage.setItem('rastro-theme', t); } catch (e) {}
-    }
-    document.getElementById('themeToggle').addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-        setTheme(current === 'dark' ? 'light' : 'dark');
-    });
+      // Light/dark theme toggle (persisted across pages via localStorage)
+      function setTheme(t) {
+        document.documentElement.setAttribute("data-theme", t);
+        try {
+          localStorage.setItem("rastro-theme", t);
+        } catch (e) {}
+      }
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const current =
+          document.documentElement.getAttribute("data-theme") === "light"
+            ? "light"
+            : "dark";
+        setTheme(current === "dark" ? "light" : "dark");
+      });
 
-    // Duplicate each marquee row's cards so it can loop seamlessly (translateX -50%),
-    // then flip on the animation. Without JS the rows just sit static — never half-empty.
-    document.querySelectorAll('.marquee').forEach(marquee => {
-        marquee.querySelectorAll('.marquee-track').forEach(track => {
-            track.querySelectorAll('.marquee-card').forEach(card => {
-                track.appendChild(card.cloneNode(true));
-            });
+      // Duplicate each marquee row's cards so it can loop seamlessly (translateX -50%),
+      // then flip on the animation. Without JS the rows just sit static — never half-empty.
+      document.querySelectorAll(".marquee").forEach((marquee) => {
+        marquee.querySelectorAll(".marquee-track").forEach((track) => {
+          track.querySelectorAll(".marquee-card").forEach((card) => {
+            track.appendChild(card.cloneNode(true));
+          });
         });
-        marquee.classList.add('is-ready');
+        marquee.classList.add("is-ready");
 
         // Slow the scroll to a crawl on hover (instead of stopping). updatePlaybackRate
         // eases the speed change so the cards don't jump position.
-        const setRate = rate => marquee.querySelectorAll('.marquee-track').forEach(track => {
-            track.getAnimations().forEach(a => {
-                if (a.updatePlaybackRate) a.updatePlaybackRate(rate); else a.playbackRate = rate;
+        const setRate = (rate) =>
+          marquee.querySelectorAll(".marquee-track").forEach((track) => {
+            track.getAnimations().forEach((a) => {
+              if (a.updatePlaybackRate) a.updatePlaybackRate(rate);
+              else a.playbackRate = rate;
             });
-        });
-        marquee.addEventListener('mouseenter', () => setRate(0.25));
-        marquee.addEventListener('mouseleave', () => setRate(1));
-    });
+          });
+        marquee.addEventListener("mouseenter", () => setRate(0.25));
+        marquee.addEventListener("mouseleave", () => setRate(1));
+      });
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target)
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
         });
-    });
-</script>
-
-</body>
+      });
+    </script>
+  </body>
 </html>
