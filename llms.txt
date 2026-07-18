@@ -2,13 +2,13 @@
 
 ## What is Rastro?
 
-Rastro is a commission tracking SaaS built specifically for pest control companies that use FieldRoutes and operate door-to-door (D2D) sales teams.
+Rastro is a commission tracking SaaS built specifically for pest control companies that use FieldRoutes and pay commissions to their sales teams — whether they sell door-to-door, inside, or both.
 
 **Tagline:** Commission tracking built for FieldRoutes.
 
 ## The Problem
 
-Pest control companies with D2D reps cannot accurately track commissions using FieldRoutes' native reporting. Commission structures are complex:
+Pest control companies with commission-based sales teams cannot accurately track commissions using FieldRoutes' native reporting. Commission structures are complex:
 
 - Each rep has a unique rate
 - Managers receive override percentages that roll up from rep-level sales
