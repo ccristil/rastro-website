@@ -527,18 +527,220 @@
         }
 
         @keyframes connectFlow {
-            0%   { left: 0;    opacity: 0; }
+            0%   { left: 0;                 opacity: 0; }
             15%  { opacity: 1; }
             85%  { opacity: 1; }
-            100% { left: 100%; opacity: 0; }
+            100% { left: calc(100% - 6px);  opacity: 0; }
         }
 
         @keyframes connectFlowV {
-            0%   { top: 0;    opacity: 0; }
+            0%   { top: 0;                  opacity: 0; }
             15%  { opacity: 1; }
             85%  { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
+            100% { top: calc(100% - 6px);   opacity: 0; }
         }
+
+        .connect-help {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+            padding: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            color: var(--green);
+            transition: opacity 0.2s;
+        }
+
+        .connect-help:hover { opacity: 0.72; }
+        .connect-help svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 48px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.22s ease, visibility 0.22s ease;
+        }
+
+        .modal-overlay.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .modal {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+            margin: auto;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+            transform: translateY(10px) scale(0.985);
+            transition: transform 0.22s ease;
+        }
+
+        .modal-overlay.is-open .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .modal-close:hover { color: var(--text); border-color: var(--border-hover); }
+
+        .modal-body { padding: 40px 36px; }
+
+        .modal-body h2 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.6px;
+            color: var(--heading);
+            margin-bottom: 12px;
+        }
+
+        .modal-intro {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 28px;
+        }
+
+        .modal-step {
+            display: flex;
+            gap: 16px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .modal-step-num {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--green-glow);
+            border: 1px solid var(--green-border);
+            border-radius: 50%;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--green);
+        }
+
+        .modal-step-body { flex: 1; min-width: 0; }
+
+        .modal-step-body h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--heading);
+            margin-bottom: 6px;
+        }
+
+        .modal-meta {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 14px;
+        }
+
+        .modal-meta a { color: var(--green); text-decoration: none; }
+        .modal-meta a:hover { text-decoration: underline; }
+
+        .modal-tpl {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--green);
+            border-radius: 8px;
+            padding: 14px 18px 16px;
+        }
+
+        .modal-tpl-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .modal-tpl-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .modal-copy {
+            padding: 4px 11px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .modal-copy:hover { color: var(--green); border-color: var(--green-border); }
+
+        .modal-tpl-text p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12.5px;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .modal-tpl-text p:last-child { margin-bottom: 0; }
+        .modal-tpl-text strong { color: var(--heading); font-weight: 600; }
+
+        .modal-list { margin: 0; padding-left: 18px; }
+
+        .modal-list li {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+
+        .modal-list li:last-child { margin-bottom: 0; }
+        .modal-list li strong { color: var(--heading); font-weight: 600; }
 
         /* Waitlist form */
         .waitlist {
@@ -834,6 +1036,7 @@
         @media (prefers-reduced-motion: reduce) {
             .marquee.is-ready .marquee-track { animation: none; }
             .connect-pulse { animation: none; }
+            .modal { transform: none; transition: opacity 0.22s ease; }
         }
 
         @media (max-width: 560px) {
@@ -865,4 +1068,7 @@
                 transform: translateX(-50%);
                 animation: connectFlowV 1.8s ease-in-out infinite;
             }
+
+            .modal-overlay { padding: 20px 12px; }
+            .modal-body { padding: 32px 20px; }
         }
