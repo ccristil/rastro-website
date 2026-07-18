@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
+    <script>
+        // Apply saved theme before paint to avoid a flash of the wrong theme
+        try { var t = localStorage.getItem('rastro-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rastro — Commission tracking built for FieldRoutes.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="assets/site.css">
+    <link rel="stylesheet" href="assets/css/site.css">
     <link rel="alternate" type="text/plain" title="LLM-friendly overview" href="https://ccristil.github.io/rastro-website/llms.txt">
 </head>
 <body>
@@ -15,8 +19,17 @@
 <!-- Nav -->
 <nav>
     <div class="inner">
-        <div class="logo">rastro<span>.</span></div>
-        <span class="nav-badge">Early Access</span>
+        <div class="logo">
+            <img src="assets/Rastro%20Logo%20Green.svg" alt="Rastro" class="logo-mark">
+            <span class="logo-word">rastro<span class="logo-dot">.</span></span>
+        </div>
+        <div class="nav-right">
+            <span class="nav-badge">Early Access</span>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+            </button>
+        </div>
     </div>
 </nav>
 
@@ -193,7 +206,10 @@
 <!-- Footer -->
 <footer>
     <div class="inner">
-        <div class="logo">rastro<span>.</span></div>
+        <div class="logo">
+            <img src="assets/Rastro%20Logo%20Green.svg" alt="Rastro" class="logo-mark">
+            <span class="logo-word">rastro<span class="logo-dot">.</span></span>
+        </div>
         <p class="footer-copy">© 2026 Rastro. All rights reserved.</p>
         <nav class="footer-links">
             <a href="https://ccristil.github.io/rastro-website/llms.txt">llms.txt</a>
@@ -247,6 +263,16 @@
             btn.textContent = 'Join the waitlist';
         }
     }
+
+    // Light/dark theme toggle (persisted across pages via localStorage)
+    function setTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        try { localStorage.setItem('rastro-theme', t); } catch (e) {}
+    }
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    });
 
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

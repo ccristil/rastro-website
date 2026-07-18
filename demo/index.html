@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+    <script>
+        // Apply saved theme before paint to avoid a flash of the wrong theme
+        try { var t = localStorage.getItem('rastro-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rastro — Demo</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -140,6 +145,7 @@
         }
         .logo b { font-weight: 500; }
         .logo .dot { color: var(--green-text); }
+        .logo-mark { height: 21px; width: auto; display: block; }
 
         .logo-badge {
             font-family: 'IBM Plex Mono', ui-monospace, monospace;
@@ -714,6 +720,7 @@
     <header class="topbar">
         <div class="shell">
             <a class="logo" href="#" onclick="return false;">
+                <img src="../assets/Rastro%20Logo%20Green.svg" alt="Rastro" class="logo-mark">
                 <b>rastro<span class="dot">.</span></b>
                 <span class="logo-badge">Demo</span>
             </a>
@@ -993,15 +1000,15 @@
         }
 
         /* ---------------------------- theme ---------------------------- */
-        let theme = 'dark'; // session-only, per spec (no localStorage)
         function setTheme(t) {
-            theme = t;
             document.documentElement.setAttribute('data-theme', t);
+            try { localStorage.setItem('rastro-theme', t); } catch (e) {}
         }
 
         /* ---------------------------- wire up ---------------------------- */
         document.getElementById('themeToggle').addEventListener('click', () => {
-            setTheme(theme === 'dark' ? 'light' : 'dark');
+            const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+            setTheme(current === 'dark' ? 'light' : 'dark');
         });
         document.getElementById('backBtn').addEventListener('click', () => showScreen('screen-dashboard'));
         document.getElementById('repSelect').addEventListener('change', e => {
