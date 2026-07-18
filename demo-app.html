@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastro — Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           THEME TOKENS
+           ============================================================ */
+        :root[data-theme="dark"] {
+            --bg:            #0a0a0a;
+            --surface:       #111111;
+            --surface-2:     #161616;
+            --surface-inset: #0d0d0d;
+            --border:        #1f1f1f;
+            --border-strong: #2a2a2a;
+            --border-hover:  #383838;
+            --text:          #e5e5e5;
+            --heading:       #ffffff;
+            --muted:         #737373;
+            --faint:         #4a4a4a;
+            --green:         #22c55e;
+            --green-text:    #22c55e;
+            --green-soft:    rgba(34, 197, 94, 0.12);
+            --green-line:    rgba(34, 197, 94, 0.25);
+            --red:           #ef4444;
+            --red-soft:      rgba(239, 68, 68, 0.10);
+            --amber:         #f59e0b;
+            --amber-soft:    rgba(245, 158, 11, 0.12);
+            --amber-track:   rgba(245, 158, 11, 0.18);
+            --grid-line:     rgba(255, 255, 255, 0.020);
+            --row-hover:     rgba(255, 255, 255, 0.022);
+            --glow:          0 0 8px var(--green);
+            --shadow-card:   none;
+        }
+
+        :root[data-theme="light"] {
+            --bg:            #fafafa;
+            --surface:       #ffffff;
+            --surface-2:     #f4f4f5;
+            --surface-inset: #f7f7f8;
+            --border:        #e6e6e8;
+            --border-strong: #dcdce0;
+            --border-hover:  #c9c9cf;
+            --text:          #1a1a1a;
+            --heading:       #0a0a0a;
+            --muted:         #6b7280;
+            --faint:         #9ca3af;
+            --green:         #16a34a;
+            --green-text:    #15803d;
+            --green-soft:    rgba(22, 163, 74, 0.10);
+            --green-line:    rgba(22, 163, 74, 0.35);
+            --red:           #dc2626;
+            --red-soft:      rgba(220, 38, 38, 0.07);
+            --amber:         #b45309;
+            --amber-soft:    rgba(180, 83, 9, 0.10);
+            --amber-track:   rgba(180, 83, 9, 0.16);
+            --grid-line:     rgba(0, 0, 0, 0.020);
+            --row-hover:     rgba(0, 0, 0, 0.020);
+            --glow:          none;
+            --shadow-card:   none;
+        }
+
+        /* ============================================================
+           RESET / BASE
+           ============================================================ */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Sora', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        /* Subtle grid — dark mode atmosphere only, off in light for clean print */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 44px 44px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .shell {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* ============================================================
+           TOP BAR
+           ============================================================ */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid var(--border);
+            background: color-mix(in srgb, var(--bg) 86%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .topbar .shell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .logo {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--heading);
+            letter-spacing: -0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .logo b { font-weight: 500; }
+        .logo .dot { color: var(--green-text); }
+
+        .logo-badge {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 10px;
+            color: var(--muted);
+            border: 1px solid var(--border-strong);
+            padding: 3px 8px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            color: var(--muted);
+            border-radius: 100px;
+            padding: 7px 9px;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
+        }
+        .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
+        .theme-toggle svg { width: 16px; height: 16px; display: block; }
+        .theme-toggle .icon-sun  { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        :root[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
+        :root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+        /* ============================================================
+           SCREEN + PAGE HEAD
+           ============================================================ */
+        .screen { display: none; padding: 56px 0 96px; }
+        .screen.active { display: block; animation: fadeUp 0.45s ease both; }
+
+        .eyebrow {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 11px;
+            color: var(--green-text);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+
+        h1.headline {
+            font-size: clamp(30px, 4vw, 42px);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -1.4px;
+            color: var(--heading);
+            margin-bottom: 14px;
+        }
+
+        .subhead {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--muted);
+            font-weight: 300;
+            max-width: 620px;
+        }
+
+        .page-head { margin-bottom: 40px; }
+
+        /* ============================================================
+           CARD
+           ============================================================ */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--heading);
+            letter-spacing: -0.1px;
+        }
+        .card-title .period { color: var(--muted); font-weight: 400; }
+
+        /* LIVE badge */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            color: var(--green-text);
+            background: var(--green-soft);
+            border: 1px solid var(--green-line);
+            padding: 4px 10px 4px 8px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+        .live-badge .pulse {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--green);
+            box-shadow: var(--glow);
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        /* ============================================================
+           DASHBOARD TABLE
+           ============================================================ */
+        .table-wrap { overflow-x: auto; }
+
+        table.grid {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        table.grid thead th {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--faint);
+            text-align: right;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        table.grid thead th:first-child { text-align: left; }
+
+        table.grid tbody tr {
+            cursor: pointer;
+            transition: background 0.12s;
+            border-bottom: 1px solid var(--border);
+            outline: none;
+        }
+        table.grid tbody tr:last-child { border-bottom: none; }
+        table.grid tbody tr:hover,
+        table.grid tbody tr:focus-visible { background: var(--row-hover); }
+        table.grid tbody tr:focus-visible { box-shadow: inset 2px 0 0 var(--green); }
+
+        table.grid tbody td {
+            padding: 16px 20px;
+            font-size: 14px;
+            text-align: right;
+            white-space: nowrap;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-variant-numeric: tabular-nums;
+            color: var(--text);
+        }
+
+        .rep-cell {
+            text-align: left !important;
+            font-family: 'Sora', sans-serif !important;
+        }
+        .rep-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--heading);
+        }
+        .rep-avatar {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--muted);
+            background: var(--surface-2);
+            border: 1px solid var(--border-strong);
+            flex-shrink: 0;
+        }
+        .row-arrow {
+            color: var(--faint);
+            font-family: 'IBM Plex Mono', monospace;
+            opacity: 0;
+            transform: translateX(-3px);
+            transition: opacity 0.12s, transform 0.12s, color 0.12s;
+        }
+        tr:hover .row-arrow,
+        tr:focus-visible .row-arrow { opacity: 1; transform: translateX(0); color: var(--green-text); }
+
+        .num-net    { color: var(--green-text); font-weight: 500; }
+        .num-neg    { color: var(--red); }
+        .num-zero   { color: var(--faint); }
+        .num-muted  { color: var(--muted); }
+
+        /* Housing pill */
+        .housing {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 9px;
+        }
+        .badge-qual {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: var(--green-text);
+            background: var(--green-soft);
+            border: 1px solid var(--green-line);
+            padding: 3px 9px;
+            border-radius: 100px;
+        }
+        .housing-progress {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--amber);
+        }
+        .track {
+            width: 46px; height: 5px;
+            border-radius: 100px;
+            background: var(--amber-track);
+            overflow: hidden;
+        }
+        .track > span {
+            display: block; height: 100%;
+            background: var(--amber);
+            border-radius: 100px;
+        }
+
+        .table-foot {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+        }
+        .table-foot .hint { color: var(--faint); }
+        .table-foot strong { color: var(--green-text); font-weight: 500; }
+
+        /* ============================================================
+           REP DETAIL / CONFIG
+           ============================================================ */
+        .detail-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 34px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid var(--border-strong);
+            color: var(--muted);
+            border-radius: 8px;
+            padding: 9px 15px 9px 12px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .back-btn:hover { border-color: var(--border-hover); color: var(--text); }
+        .back-btn svg { width: 14px; height: 14px; }
+
+        .rep-select-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .rep-select-wrap label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--faint);
+        }
+        .rep-select {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        .rep-select select {
+            appearance: none;
+            font-family: 'Sora', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--heading);
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            padding: 9px 34px 9px 14px;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .rep-select select:hover  { border-color: var(--border-hover); }
+        .rep-select select:focus  { border-color: var(--green); }
+        .rep-select select option { background: var(--surface); color: var(--text); }
+        .rep-select .chev {
+            position: absolute;
+            right: 12px;
+            pointer-events: none;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.15fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .panel { padding: 22px; }
+        .panel + .panel { }
+
+        .panel-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--faint);
+            margin-bottom: 4px;
+        }
+        .panel-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--heading);
+            letter-spacing: -0.2px;
+            margin-bottom: 20px;
+        }
+        .panel-title.accent { color: var(--green-text); }
+
+        .field-group-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--faint);
+            margin: 0 0 10px;
+        }
+
+        /* Tier list */
+        .tiers { display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px; }
+        .tier {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 13px;
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--border);
+            border-radius: 7px;
+            background: var(--surface-inset);
+            transition: border-color 0.18s, background 0.18s;
+        }
+        .tier .tier-range {
+            font-size: 12.5px;
+            color: var(--text);
+        }
+        .tier .tier-rate {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .tier.active {
+            border-color: var(--green-line);
+            border-left-color: var(--green);
+            background: var(--green-soft);
+        }
+        .tier.active .tier-range { color: var(--heading); font-weight: 500; }
+        .tier.active .tier-rate  { color: var(--green-text); font-weight: 500; }
+        .tier.active .tier-flag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.08em;
+            color: var(--green-text);
+            margin-left: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Setting rows */
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+        }
+        .setting-row .k { color: var(--muted); }
+        .setting-row .v {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        .setting-row .v.total { color: var(--green-text); }
+
+        /* Toggle switch */
+        .switch {
+            position: relative;
+            width: 40px; height: 22px;
+            border-radius: 100px;
+            background: var(--green);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: background 0.18s;
+            box-shadow: var(--glow);
+        }
+        .switch::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.18s;
+        }
+        /* ON = green, knob right · OFF = gray, knob left */
+        .switch[aria-checked="true"]         { background: var(--green); box-shadow: var(--glow); }
+        .switch[aria-checked="true"]::after  { transform: translateX(18px); }
+        .switch[aria-checked="false"]        { background: var(--border-hover); box-shadow: none; }
+        .switch[aria-checked="false"]::after { transform: translateX(0); }
+
+        /* Live preview table */
+        .preview-table { width: 100%; border-collapse: collapse; }
+        .preview-table tr { border-top: 1px solid var(--border); }
+        .preview-table tr:first-child { border-top: none; }
+        .preview-table td {
+            padding: 12px 0;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+        .preview-table td.k { color: var(--muted); }
+        .preview-table td.v {
+            text-align: right;
+            font-family: 'IBM Plex Mono', monospace;
+            font-variant-numeric: tabular-nums;
+            color: var(--text);
+            font-weight: 500;
+        }
+        .preview-table tr.net-row {
+            border-top: 1px solid var(--border-strong);
+        }
+        .preview-table tr.net-row td { padding-top: 15px; }
+        .preview-table tr.net-row td.k { color: var(--heading); font-weight: 600; font-size: 13.5px; }
+        .preview-table tr.net-row td.v {
+            color: var(--green-text);
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .preview-table td.v.neg { color: var(--red); }
+        .preview-table td.v.zero { color: var(--faint); }
+        .preview-table tr.sub td { padding-top: 4px; padding-bottom: 4px; }
+        .preview-table tr.sub td.k { color: var(--faint); font-size: 12px; padding-left: 14px; }
+        .preview-table tr.sub td.v { color: var(--muted); font-weight: 400; }
+
+        .housing-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .housing-line .k { font-size: 13px; color: var(--muted); }
+
+        .override-note {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            padding: 14px 16px;
+            border: 1px dashed var(--border-strong);
+            border-radius: 9px;
+            background: var(--surface-inset);
+        }
+        .override-note .oi {
+            flex-shrink: 0;
+            color: var(--green-text);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .override-note p {
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+        .override-note .calc {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text);
+        }
+        .override-note .aside { color: var(--faint); }
+
+        .reconcile-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 18px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+        }
+        .reconcile-tag .chk { color: var(--green-text); }
+
+        /* ============================================================
+           ANIMATION
+           ============================================================ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0.35; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .screen.active { animation: none; }
+            .live-badge .pulse { animation: none; }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 940px) {
+            .cols { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 620px) {
+            .shell { padding: 0 18px; }
+            .logo-badge { display: none; }
+        }
+
+        /* ============================================================
+           PRINT (light mailer)
+           ============================================================ */
+        @media print {
+            .topbar, .back-btn, .rep-select-wrap, .row-arrow { display: none !important; }
+            body::before { display: none; }
+            .screen { display: none !important; padding: 0; }
+            .screen.active { display: block !important; }
+            .card { border-color: #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================ TOP BAR ============================ -->
+    <header class="topbar">
+        <div class="shell">
+            <a class="logo" href="#" onclick="return false;">
+                <b>rastro<span class="dot">.</span></b>
+                <span class="logo-badge">Demo</span>
+            </a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================ SCREEN 1: DASHBOARD ============================ -->
+    <section class="screen active" id="screen-dashboard">
+        <div class="shell">
+            <div class="page-head">
+                <div class="eyebrow">— Owner view</div>
+                <h1 class="headline">Your commission dashboard.</h1>
+                <p class="subhead">See every rep's numbers at a glance — updated automatically as accounts close or cancel.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <div class="card-title">Commission Summary <span class="period">— Pay Period: July 1–15, 2026</span></div>
+                    <span class="live-badge"><span class="pulse"></span>LIVE</span>
+                </div>
+                <div class="table-wrap">
+                    <table class="grid">
+                        <thead>
+                            <tr>
+                                <th>Rep</th>
+                                <th>Accounts</th>
+                                <th>Rate</th>
+                                <th>Earned</th>
+                                <th>Clawbacks</th>
+                                <th>Net Payout</th>
+                                <th>Housing</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashBody"><!-- rendered by JS --></tbody>
+                    </table>
+                </div>
+                <div class="table-foot">
+                    <span class="hint">Click any rep to view their payout breakdown &amp; rules →</span>
+                    <span>Total net payout this period: <strong id="totalNet">$0</strong></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================ SCREEN 2: REP DETAIL / CONFIG ============================ -->
+    <section class="screen" id="screen-detail">
+        <div class="shell">
+            <div class="detail-topline">
+                <button class="back-btn" id="backBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                    Dashboard
+                </button>
+                <div class="rep-select-wrap">
+                    <label for="repSelect">Viewing</label>
+                    <span class="rep-select">
+                        <select id="repSelect"><!-- options by JS --></select>
+                        <span class="chev mono">▼</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="page-head">
+                <div class="eyebrow">— Configuration</div>
+                <h1 class="headline">Your rules. Automatically enforced.</h1>
+                <p class="subhead">Set it once — Rastro handles the math from there.</p>
+            </div>
+
+            <div class="cols">
+                <!-- COLUMN 1 — COMMISSION SETTINGS -->
+                <div class="card panel">
+                    <div class="panel-label">Company rules</div>
+                    <div class="panel-title">Commission Settings</div>
+
+                    <div class="field-group-label">Commission rate tiers</div>
+                    <div class="tiers" id="tierList">
+                        <div class="tier" data-min="0"  data-max="19"><span class="tier-range">Under 20 accounts</span><span><span class="tier-rate">7%</span><span class="tier-flag">◂ active</span></span></div>
+                        <div class="tier" data-min="20" data-max="29"><span class="tier-range">20–29 accounts</span><span><span class="tier-rate">8%</span><span class="tier-flag">◂ active</span></span></div>
+                        <div class="tier" data-min="30" data-max="39"><span class="tier-range">30–39 accounts</span><span><span class="tier-rate">9%</span><span class="tier-flag">◂ active</span></span></div>
+                        <div class="tier" data-min="40" data-max="999"><span class="tier-range">40+ accounts</span><span><span class="tier-rate">10%</span><span class="tier-flag">◂ active</span></span></div>
+                    </div>
+
+                    <div class="setting-row"><span class="k">Clawback window</span><span class="v">60 days</span></div>
+                    <div class="setting-row"><span class="k">Manager override</span><span class="v">3%</span></div>
+                    <div class="setting-row"><span class="k">Housing threshold</span><span class="v">35 accounts</span></div>
+                </div>
+
+                <!-- COLUMN 2 — PAYOUT SCHEDULE -->
+                <div class="card panel">
+                    <div class="panel-label">Company rules</div>
+                    <div class="panel-title">Payout Schedule</div>
+
+                    <div class="setting-row" style="border-top:none;"><span class="k">Initial payout</span><span class="v">50%</span></div>
+                    <div class="setting-row"><span class="k">Backend 1 <span style="color:var(--faint)">· Oct</span></span><span class="v">20%</span></div>
+                    <div class="setting-row"><span class="k">Backend 2 <span style="color:var(--faint)">· Jan</span></span><span class="v">30%</span></div>
+                    <div class="setting-row"><span class="k">Total allocation</span><span class="v total">100%</span></div>
+                    <div class="setting-row">
+                        <span class="k">Auto-clawback enabled</span>
+                        <button class="switch" id="clawbackSwitch" role="switch" aria-checked="true" aria-label="Auto-clawback"></button>
+                    </div>
+                </div>
+
+                <!-- COLUMN 3 — LIVE PREVIEW -->
+                <div class="card panel">
+                    <div class="panel-label">Real-time</div>
+                    <div class="panel-title accent" id="previewTitle">Live Preview — Tom Brady</div>
+
+                    <table class="preview-table" id="previewTable"><!-- rendered by JS --></table>
+
+                    <div class="housing-line" id="housingLine"><!-- rendered by JS --></div>
+
+                    <div class="override-note">
+                        <span class="oi">↳</span>
+                        <p id="overrideNote"><!-- rendered by JS --></p>
+                    </div>
+
+                    <div class="reconcile-tag"><span class="chk">✓</span> Net payout matches dashboard exactly</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        /* ============================================================
+           DATA — hardcoded, pre-reconciled with the spec.
+           Only Live Preview derives sub-figures from these values.
+           ============================================================ */
+        const COMPANY = {
+            avgContractValue: 1600,
+            managerOverridePct: 3,
+            housingThreshold: 35,
+            schedule: { initial: 50, backend1: 20, backend2: 30 } // % of earned
+        };
+
+        // Exact figures from the spec table (Screen 1). Do not recompute.
+        const REPS = [
+            { id: 'tom',    name: 'Tom Brady',      accounts: 42, rate: 10, earned: 6720, clawbacks: -160, net: 6560, cancellations: 1 },
+            { id: 'jerry',  name: 'Jerry Rice',     accounts: 38, rate: 9,  earned: 5472, clawbacks: -288, net: 5184, cancellations: 2 },
+            { id: 'ray',    name: 'Ray Lewis',      accounts: 31, rate: 9,  earned: 4464, clawbacks: -144, net: 4320, cancellations: 1 },
+            { id: 'peyton', name: 'Peyton Manning', accounts: 27, rate: 8,  earned: 3456, clawbacks: 0,    net: 3456, cancellations: 0 },
+            { id: 'randy',  name: 'Randy Moss',     accounts: 19, rate: 7,  earned: 2128, clawbacks: -112, net: 2016, cancellations: 1 },
+        ];
+
+        /* ---------------------------- helpers ---------------------------- */
+        const money = n => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
+        const initials = name => name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        const isQualified = rep => rep.accounts >= COMPANY.housingThreshold;
+
+        // Derived preview figures for a rep (kept consistent with hardcoded earned/net).
+        function derive(rep) {
+            const contractValue = rep.accounts * COMPANY.avgContractValue;
+            return {
+                contractValue,
+                initial:  rep.earned * COMPANY.schedule.initial  / 100,
+                backend1: rep.earned * COMPANY.schedule.backend1 / 100,
+                backend2: rep.earned * COMPANY.schedule.backend2 / 100,
+                override: contractValue * COMPANY.managerOverridePct / 100,
+            };
+        }
+
+        /* ---------------------------- dashboard ---------------------------- */
+        function housingCellHTML(rep) {
+            if (isQualified(rep)) {
+                return `<span class="housing"><span class="badge-qual">✓ Qualified</span></span>`;
+            }
+            const pct = Math.min(100, Math.round(rep.accounts / COMPANY.housingThreshold * 100));
+            return `<span class="housing">
+                        <span class="track"><span style="width:${pct}%"></span></span>
+                        <span class="housing-progress">${rep.accounts}/${COMPANY.housingThreshold}</span>
+                    </span>`;
+        }
+
+        function clawbackCellHTML(rep) {
+            if (rep.clawbacks === 0) return `<span class="num-zero">$0</span>`;
+            return `<span class="num-neg">${money(rep.clawbacks)}</span>`;
+        }
+
+        function renderDashboard() {
+            const body = document.getElementById('dashBody');
+            body.innerHTML = REPS.map(rep => `
+                <tr tabindex="0" data-id="${rep.id}">
+                    <td class="rep-cell">
+                        <span class="rep-name"><span class="rep-avatar">${initials(rep.name)}</span>${rep.name}</span>
+                    </td>
+                    <td>${rep.accounts}</td>
+                    <td class="num-muted">${rep.rate}%</td>
+                    <td>${money(rep.earned)}</td>
+                    <td>${clawbackCellHTML(rep)}</td>
+                    <td class="num-net">${money(rep.net)} <span class="row-arrow">→</span></td>
+                    <td>${housingCellHTML(rep)}</td>
+                </tr>
+            `).join('');
+
+            body.querySelectorAll('tr').forEach(tr => {
+                const go = () => openDetail(tr.dataset.id);
+                tr.addEventListener('click', go);
+                tr.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+                });
+            });
+
+            const total = REPS.reduce((s, r) => s + r.net, 0);
+            document.getElementById('totalNet').textContent = money(total);
+        }
+
+        /* ---------------------------- rep detail ---------------------------- */
+        function renderTiers(rep) {
+            document.querySelectorAll('#tierList .tier').forEach(t => {
+                const min = +t.dataset.min, max = +t.dataset.max;
+                t.classList.toggle('active', rep.accounts >= min && rep.accounts <= max);
+            });
+        }
+
+        function renderPreview(rep) {
+            const d = derive(rep);
+            document.getElementById('previewTitle').textContent = `Live Preview — ${rep.name}`;
+
+            const clawLabel = rep.cancellations === 0
+                ? 'Clawbacks <span style="color:var(--faint)">(none)</span>'
+                : `Clawbacks <span style="color:var(--faint)">(${rep.cancellations} cancellation${rep.cancellations > 1 ? 's' : ''})</span>`;
+            const clawVal = rep.clawbacks === 0
+                ? `<td class="v zero">$0</td>`
+                : `<td class="v neg">${money(rep.clawbacks)}</td>`;
+
+            document.getElementById('previewTable').innerHTML = `
+                <tr><td class="k">Accounts sold</td><td class="v">${rep.accounts}</td></tr>
+                <tr><td class="k">Total contract value</td><td class="v">${money(d.contractValue)}</td></tr>
+                <tr><td class="k">Commission rate</td><td class="v">${rep.rate}%</td></tr>
+                <tr><td class="k">Total commission (earned)</td><td class="v">${money(rep.earned)}</td></tr>
+                <tr class="sub"><td class="k">Initial payout (50%)</td><td class="v">${money(d.initial)}</td></tr>
+                <tr class="sub"><td class="k">Backend 1 — Oct (20%)</td><td class="v">${money(d.backend1)}</td></tr>
+                <tr class="sub"><td class="k">Backend 2 — Jan (30%)</td><td class="v">${money(d.backend2)}</td></tr>
+                <tr><td class="k">${clawLabel}</td>${clawVal}</tr>
+                <tr class="net-row"><td class="k">Net rep payout</td><td class="v">${money(rep.net)}</td></tr>
+            `;
+
+            // Housing status line
+            const hl = document.getElementById('housingLine');
+            if (isQualified(rep)) {
+                hl.innerHTML = `<span class="k">Housing status</span>
+                    <span class="badge-qual">✓ Qualified (${rep.accounts}/${COMPANY.housingThreshold} accounts)</span>`;
+            } else {
+                const remaining = COMPANY.housingThreshold - rep.accounts;
+                hl.innerHTML = `<span class="k">Housing status</span>
+                    <span class="housing-progress">${rep.accounts}/${COMPANY.housingThreshold} accounts — ${remaining} more to qualify</span>`;
+            }
+
+            // Manager override informational line
+            document.getElementById('overrideNote').innerHTML =
+                `Manager override generated: <span class="calc">${COMPANY.managerOverridePct}% × ${money(d.contractValue)} = ${money(d.override)}</span> `
+                + `<span class="aside">(paid to this rep's manager, not deducted from ${rep.name}'s payout above)</span>`;
+
+            renderTiers(rep);
+        }
+
+        function renderRepSelect(activeId) {
+            const sel = document.getElementById('repSelect');
+            sel.innerHTML = REPS.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+            sel.value = activeId;
+        }
+
+        /* ---------------------------- navigation ---------------------------- */
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        function openDetail(repId) {
+            const rep = REPS.find(r => r.id === repId) || REPS[0];
+            renderRepSelect(rep.id);
+            renderPreview(rep);
+            showScreen('screen-detail');
+        }
+
+        /* ---------------------------- theme ---------------------------- */
+        let theme = 'dark'; // session-only, per spec (no localStorage)
+        function setTheme(t) {
+            theme = t;
+            document.documentElement.setAttribute('data-theme', t);
+        }
+
+        /* ---------------------------- wire up ---------------------------- */
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            setTheme(theme === 'dark' ? 'light' : 'dark');
+        });
+        document.getElementById('backBtn').addEventListener('click', () => showScreen('screen-dashboard'));
+        document.getElementById('repSelect').addEventListener('change', e => {
+            const rep = REPS.find(r => r.id === e.target.value);
+            renderPreview(rep);
+        });
+        document.getElementById('clawbackSwitch').addEventListener('click', e => {
+            const btn = e.currentTarget;
+            btn.setAttribute('aria-checked', btn.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
+        });
+
+        // init
+        renderDashboard();
+        renderRepSelect('tom');
+        renderPreview(REPS[0]);
+    </script>
+</body>
+</html>
