@@ -14,4 +14,4 @@ User-agent: Amazonbot
 Allow: /
 
 # LLM-friendly content summary
-# https://ccristil.github.io/rastro-website/llms.txt
+# https://getrastro.com/llms.txt
