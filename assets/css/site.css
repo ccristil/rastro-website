@@ -115,13 +115,16 @@
             color: var(--green);
         }
 
+        /* .nav-demo, .nav-badge and .theme-toggle all resolve to a 31px pill:
+           15px line box + 7px vertical padding + 1px border on each side. */
         .nav-demo {
             font-family: 'IBM Plex Mono', monospace;
             font-size: 12px;
+            line-height: 15px;
             color: var(--text);
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 6px 13px;
+            padding: 7px 13px;
             border-radius: 100px;
             text-decoration: none;
             white-space: nowrap;
@@ -137,12 +140,14 @@
         .nav-badge {
             font-family: 'IBM Plex Mono', monospace;
             font-size: 11px;
+            line-height: 15px;
             color: var(--green);
             background: var(--green-glow);
             border: 1px solid var(--green-border);
-            padding: 4px 10px;
+            padding: 7px 10px;
             border-radius: 100px;
             letter-spacing: 0.05em;
+            white-space: nowrap;
         }
 
         .nav-right {
@@ -229,17 +234,22 @@
             color: var(--on-green);
             font-weight: 600;
             font-size: 14px;
+            line-height: 20px;
             padding: 11px 24px;
             border-radius: 6px;
-            border: none;
+            /* Matches .btn-ghost's 1px border so both buttons are the same height */
+            border: 1px solid var(--green);
             cursor: pointer;
-            transition: background 0.15s, transform 0.1s;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary:hover {
             background: var(--green-hover);
+            border-color: var(--green-hover);
             transform: translateY(-1px);
         }
 
@@ -247,13 +257,16 @@
             background: transparent;
             color: var(--muted);
             font-size: 14px;
+            line-height: 20px;
             padding: 11px 24px;
             border-radius: 6px;
             border: 1px solid var(--border);
             cursor: pointer;
             transition: border-color 0.15s, color 0.15s;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-ghost:hover {

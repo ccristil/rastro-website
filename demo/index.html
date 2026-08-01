@@ -119,10 +119,12 @@
         /* ============================================================
            TOP BAR
            ============================================================ */
+        /* Mirrors the nav in /index.html — keep the two in sync */
         .topbar {
             position: sticky;
             top: 0;
             z-index: 20;
+            padding: 20px 0;
             border-bottom: 1px solid var(--border);
             background: color-mix(in srgb, var(--bg) 86%, transparent);
             backdrop-filter: blur(8px);
@@ -133,49 +135,52 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60px;
         }
 
         .logo {
             font-family: 'IBM Plex Mono', ui-monospace, monospace;
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 500;
             color: var(--heading);
             letter-spacing: -0.5px;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 9px;
         }
         .logo b { font-weight: 500; }
         .logo .dot { color: var(--green-text); }
-        .logo-mark { height: 21px; width: auto; display: block; }
+        .logo-mark { height: 22px; width: auto; display: block; }
 
+        /* Same 31px pill spec as .nav-badge in /index.html */
         .logo-badge {
             font-family: 'IBM Plex Mono', ui-monospace, monospace;
-            font-size: 10px;
-            color: var(--muted);
-            border: 1px solid var(--border-strong);
-            padding: 3px 8px;
+            font-size: 11px;
+            line-height: 15px;
+            color: var(--green-text);
+            background: var(--green-soft);
+            border: 1px solid var(--green-line);
+            padding: 7px 10px;
             border-radius: 100px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
         }
 
         /* Theme toggle */
         .theme-toggle {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
             background: var(--surface);
-            border: 1px solid var(--border-strong);
+            border: 1px solid var(--border);
             color: var(--muted);
             border-radius: 100px;
-            padding: 7px 9px;
+            padding: 7px;
             cursor: pointer;
             transition: border-color 0.15s, color 0.15s, background 0.15s;
         }
         .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
-        .theme-toggle svg { width: 16px; height: 16px; display: block; }
+        .theme-toggle svg { width: 15px; height: 15px; display: block; }
         .theme-toggle .icon-sun  { display: none; }
         .theme-toggle .icon-moon { display: block; }
         :root[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
@@ -680,10 +685,11 @@
         /* ============================================================
            CUSTOMIZE — top-bar controls + co-brand
            ============================================================ */
+        /* Matches .nav-right in /index.html */
         .topbar-right {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .cobrand {
@@ -719,16 +725,16 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 34px; height: 34px;
             background: var(--surface);
-            border: 1px solid var(--border-strong);
+            border: 1px solid var(--border);
             color: var(--muted);
             border-radius: 100px;
+            padding: 7px;
             cursor: pointer;
-            transition: border-color 0.15s, color 0.15s;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
         }
         .gear-btn:hover { border-color: var(--border-hover); color: var(--text); }
-        .gear-btn svg { width: 16px; height: 16px; display: block; }
+        .gear-btn svg { width: 15px; height: 15px; display: block; }
 
         /* ============================================================
            CUSTOMIZE — slide-over drawer
