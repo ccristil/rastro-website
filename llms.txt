@@ -41,9 +41,9 @@ FieldRoutes-native, pest control-specific. Not a generic commission tool.
 
 ## Current Status
 
-Pre-launch. Collecting waitlist signups to validate product-market fit with real pest control operators before writing product code.
+In active development, working directly with pest control operators to validate the product.
 
 
 ## Contact
 
-Join the waitlist at https://getrastro.com/.
+Get in touch via the contact form at https://getrastro.com/#contact.

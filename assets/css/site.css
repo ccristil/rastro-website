@@ -115,21 +115,6 @@
             color: var(--green);
         }
 
-        /* .nav-badge and .theme-toggle both resolve to a 31px pill:
-           15px line box + 7px vertical padding + 1px border on each side. */
-        .nav-badge {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px;
-            line-height: 15px;
-            color: var(--green);
-            background: var(--green-glow);
-            border: 1px solid var(--green-border);
-            padding: 7px 10px;
-            border-radius: 100px;
-            letter-spacing: 0.05em;
-            white-space: nowrap;
-        }
-
         .nav-right {
             display: inline-flex;
             align-items: center;
@@ -754,12 +739,12 @@
         .modal-list li:last-child { margin-bottom: 0; }
         .modal-list li strong { color: var(--heading); font-weight: 600; }
 
-        /* Waitlist form */
-        .waitlist {
+        /* Contact form */
+        .contact {
             padding: 72px 0 96px;
         }
 
-        .waitlist h2 {
+        .contact h2 {
             font-size: 26px;
             font-weight: 600;
             letter-spacing: -0.8px;
@@ -767,7 +752,7 @@
             margin-bottom: 8px;
         }
 
-        .waitlist-sub {
+        .contact-sub {
             font-size: 14px;
             color: var(--muted);
             margin-bottom: 40px;
@@ -1084,6 +1069,4 @@
             .modal-overlay { padding: 20px 12px; }
             .modal-body { padding: 32px 20px; }
 
-            /* Drop the static badge on narrow screens */
-            .nav-badge { display: none; }
         }

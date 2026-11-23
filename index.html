@@ -40,7 +40,6 @@
           <span class="logo-word">rastro<span class="logo-dot">.</span></span>
         </div>
         <div class="nav-right">
-          <span class="nav-badge">Early Access</span>
           <button
             class="theme-toggle"
             id="themeToggle"
@@ -89,7 +88,7 @@
           where they stand.
         </p>
         <div class="hero-cta">
-          <a href="#waitlist" class="btn-primary">Join the waitlist</a>
+          <a href="#contact" class="btn-primary">Get in touch</a>
         </div>
       </div>
     </section>
@@ -611,14 +610,14 @@
       </div>
     </section>
 
-    <!-- Waitlist Form -->
-    <section class="waitlist" id="waitlist">
+    <!-- Contact Form -->
+    <section class="contact" id="contact">
       <div class="container">
-        <div class="section-label">Early Access</div>
-        <h2>Get early access.</h2>
-        <p class="waitlist-sub">
-          Rastro is in active development. Join the waitlist and be first to
-          know when we launch.
+        <div class="section-label">Contact</div>
+        <h2>Get in touch.</h2>
+        <p class="contact-sub">
+          Have a question, or want to see how Rastro would work for your team?
+          Send us a note and we'll get back to you.
         </p>
         <div class="form-card">
           <div id="form-content">
@@ -664,7 +663,7 @@
             </div>
             <div class="form-group" style="margin-bottom: 24px">
               <label for="comments"
-                >Anything else?
+                >How can we help?
                 <span style="opacity: 0.45; font-weight: 400"
                   >(optional)</span
                 ></label
@@ -682,16 +681,16 @@
               style="width: 100%; text-align: center"
               onclick="handleSubmit()"
             >
-              Join the waitlist
+              Send message
             </button>
             <p class="form-note">
-              No spam. No commitments. We'll reach out when Rastro is ready.
+              No spam. A real person reads every message.
             </p>
           </div>
           <div class="success-msg" id="success-msg">
             <div class="check">✦</div>
-            <h3>You're on the list.</h3>
-            <p>We'll be in touch when Rastro is ready for early access.</p>
+            <h3>Thanks, we got your message.</h3>
+            <p>We'll get back to you shortly.</p>
           </div>
         </div>
       </div>
@@ -872,7 +871,7 @@
             // Tie this visitor (and their earlier visits) to who they are
             try {
               posthog.identify(email, { email, name, company, teamsize });
-              track("waitlist_submitted", { company, teamsize });
+              track("contact_submitted", { company, teamsize });
             } catch (e) {}
             document.getElementById("form-content").style.display = "none";
             document.getElementById("success-msg").style.display = "block";
@@ -883,12 +882,12 @@
               "Submission failed. Please try again.";
             alert(msg);
             btn.disabled = false;
-            btn.textContent = "Join the waitlist";
+            btn.textContent = "Send message";
           }
         } catch {
           alert("Network error. Please check your connection and try again.");
           btn.disabled = false;
-          btn.textContent = "Join the waitlist";
+          btn.textContent = "Send message";
         }
       }
 
