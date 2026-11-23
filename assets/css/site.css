@@ -15,6 +15,16 @@
             --faint: #4a4a4a;
             --grid-line: rgba(255, 255, 255, 0.02);
             --dot-glow: 0 0 8px var(--green);
+            --red: #ef4444;
+            --red-glow: rgba(239, 68, 68, 0.14);
+            /* Hero pay stub */
+            --stub-top: #191919;
+            --stub-bottom: #0f0f0f;
+            --stub-border: #262626;
+            --stub-rule: #2a2a2a;
+            --stub-track: #232323;
+            --stub-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.75), 0 18px 36px -18px rgba(0, 0, 0, 0.6);
+            --stub-sheen: rgba(255, 255, 255, 0.05);
         }
 
         :root[data-theme="light"] {
@@ -34,6 +44,15 @@
             --faint: #9ca3af;
             --grid-line: rgba(0, 0, 0, 0.02);
             --dot-glow: none;
+            --red: #dc2626;
+            --red-glow: rgba(220, 38, 38, 0.10);
+            --stub-top: #ffffff;
+            --stub-bottom: #fbfbfb;
+            --stub-border: #e4e4e7;
+            --stub-rule: #e7e7ea;
+            --stub-track: #ececef;
+            --stub-shadow: 0 40px 80px -24px rgba(15, 23, 42, 0.22), 0 18px 36px -18px rgba(15, 23, 42, 0.14);
+            --stub-sheen: rgba(255, 255, 255, 0.6);
         }
 
         html { transition: background 0.2s ease; }
@@ -141,8 +160,330 @@
 
         /* Hero */
         .hero {
-            padding: 96px 0 72px;
+            padding: 80px 0 64px;
             border-bottom: 1px solid var(--border);
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-copy { min-width: 0; }
+
+        /* Hero pay stub — live values driven by assets/js/hero-stub.js */
+        .hero-visual {
+            position: relative;
+            min-width: 0;
+            display: flex;
+            justify-content: center;
+            padding: 24px 0 32px;
+            perspective: 1100px;
+            animation: fadeUp 0.7s ease 0.25s both;
+        }
+
+        .stub-float {
+            animation: stubFloat 7s ease-in-out infinite;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        @keyframes stubFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .stub-stack {
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(var(--stub-rx, 9deg)) rotateY(var(--stub-ry, -15deg)) rotateZ(1deg);
+            transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        .stub {
+            position: relative;
+            border-radius: 14px;
+            background: linear-gradient(165deg, var(--stub-top), var(--stub-bottom));
+            border: 1px solid var(--stub-border);
+            box-shadow: var(--stub-shadow);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        /* A second statement peeking out behind the live one, for depth */
+        .stub-ghost {
+            position: absolute;
+            inset: 0;
+            transform: translate3d(18px, -16px, -50px) rotateZ(2.5deg);
+            opacity: 0.55;
+            box-shadow: none;
+        }
+
+        .stub-live-card { overflow: hidden; }
+
+        /* Light sheen that follows the tilt */
+        .stub-live-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(
+                115deg,
+                transparent 30%,
+                var(--stub-sheen) calc(45% + var(--stub-sx, 0%)),
+                transparent 60%
+            );
+            pointer-events: none;
+            transition: background 0.6s ease;
+        }
+
+        .stub-body { padding: 20px 22px 16px; }
+
+        .stub-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed var(--stub-rule);
+        }
+
+        .stub-kicker {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .stub-name {
+            font-family: 'Sora', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: var(--heading);
+            margin-top: 6px;
+        }
+
+        .stub-role { font-size: 11px; color: var(--faint); margin-top: 2px; }
+
+        .stub-period { text-align: right; }
+        .stub-period .stub-dates { font-size: 12px; color: var(--text); margin-top: 6px; white-space: nowrap; }
+
+        .stub-sync {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 10px;
+            color: var(--muted);
+            padding: 10px 0 6px;
+        }
+
+        .stub-live {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: var(--dot-glow);
+            animation: stubLive 2.4s ease-in-out infinite;
+        }
+
+        @keyframes stubLive {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+        }
+
+        .stub-lines { display: flex; flex-direction: column; }
+
+        .stub-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            padding: 7px 8px;
+            margin: 0 -8px;
+            border-radius: 7px;
+            transition: background 0.9s ease;
+        }
+
+        .stub-line dt { color: var(--text); }
+        .stub-line dt span { color: var(--faint); margin-left: 6px; }
+        .stub-line dd { font-weight: 500; color: var(--heading); font-variant-numeric: tabular-nums; }
+        .stub-line.is-neg dd { color: var(--red); }
+        .stub-line.flash-up { background: var(--green-glow); transition: none; }
+        .stub-line.flash-down { background: var(--red-glow); transition: none; }
+
+        .stub-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            border-top: 1px solid var(--stub-rule);
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        .stub-total strong {
+            font-family: 'Sora', sans-serif;
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: -1px;
+            color: var(--heading);
+            font-variant-numeric: tabular-nums;
+            transition: color 0.5s ease;
+        }
+
+        .stub-total strong.is-up { color: var(--green); transition: none; }
+        .stub-total strong.is-down { color: var(--red); transition: none; }
+
+        .stub-housing { margin-top: 14px; }
+
+        .stub-bar {
+            position: relative;
+            height: 6px;
+            border-radius: 6px;
+            background: var(--stub-track);
+        }
+
+        .stub-bar-fill {
+            position: absolute;
+            inset: 0 auto 0 0;
+            border-radius: 6px;
+            background: var(--green);
+            transition: width 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.3s ease;
+        }
+
+        .stub-bar-fill.is-below { background: var(--red); }
+
+        .stub-bar-mark {
+            position: absolute;
+            top: -4px;
+            bottom: -4px;
+            left: 75%;
+            width: 2px;
+            border-radius: 2px;
+            background: var(--heading);
+        }
+
+        .stub-housing-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 9px;
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        .stub-housing-row .ok { color: var(--green); font-weight: 500; }
+        .stub-housing-row .short { color: var(--red); font-weight: 500; }
+
+        /* Perforation with punched notches on both edges */
+        .stub-perf {
+            position: relative;
+            height: 0;
+            border-top: 1px dashed var(--stub-rule);
+            margin: 0 14px;
+        }
+
+        .stub-perf::before,
+        .stub-perf::after {
+            content: '';
+            position: absolute;
+            top: -9px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--stub-border);
+        }
+
+        .stub-perf::before { left: -24px; clip-path: inset(0 0 0 50%); }
+        .stub-perf::after { right: -24px; clip-path: inset(0 50% 0 0); }
+
+        .stub-activity {
+            list-style: none;
+            padding: 12px 22px 16px;
+            height: 92px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stub-activity li {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto 64px;
+            gap: 10px;
+            align-items: baseline;
+            font-size: 11px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .stub-activity li.is-new { animation: stubRowIn 0.45s ease; }
+        .stub-activity li:nth-child(2) { opacity: 0.7; }
+        .stub-activity li:nth-child(3) { opacity: 0.4; }
+        .stub-activity .what { overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+        .stub-activity .tag { color: var(--faint); }
+        .stub-activity .amt { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+        .stub-activity .up .amt { color: var(--green); }
+        .stub-activity .down .amt,
+        .stub-activity .down .tag { color: var(--red); }
+
+        @keyframes stubRowIn {
+            from { opacity: 0; transform: translateY(-6px); }
+        }
+
+        /* "Paid" stamp shown when the example period rolls over */
+        .stub-stamp {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 8px 18px;
+            border: 2px solid var(--green);
+            border-radius: 8px;
+            color: var(--green);
+            background: var(--green-glow);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            pointer-events: none;
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(-10deg) scale(1.5);
+            transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+        }
+
+        .stub-stamp span { font-size: 11px; letter-spacing: 0.08em; }
+        .stub-stamp.is-on { opacity: 1; transform: translate(-50%, -50%) rotate(-10deg) scale(1); }
+        .stub-numbers { transition: opacity 0.35s ease; }
+        .stub-numbers.is-resetting { opacity: 0.25; }
+
+        @media (max-width: 960px) {
+            .hero { padding: 56px 0 48px; }
+            .hero-inner {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 24px;
+                padding: 0 24px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .stub-body { padding: 18px 16px 14px; }
+            .stub-activity { padding: 12px 16px 14px; }
+            .stub-total strong { font-size: 26px; }
+            .stub-stack { --stub-rx: 6deg; --stub-ry: -8deg; }
         }
 
         .hero-eyebrow {
@@ -165,7 +506,9 @@
             background: var(--green);
         }
 
-        h1 {
+        /* .hero-copy prefix: the Tailwind CDN injects its reset after this
+           file, and its bare `h1` rule would otherwise win. */
+        .hero-copy h1 {
             font-size: clamp(32px, 5vw, 48px);
             font-weight: 600;
             line-height: 1.15;
@@ -174,7 +517,7 @@
             margin-bottom: 20px;
         }
 
-        h1 em {
+        .hero-copy h1 em {
             font-style: normal;
             color: var(--green);
         }
@@ -1032,6 +1375,8 @@
 
         @media (prefers-reduced-motion: reduce) {
             .marquee.is-ready .marquee-track { animation: none; }
+            .hero-visual, .stub-float, .stub-live, .stub-activity li.is-new { animation: none; }
+            .stub-stack { transition: none; }
             .connect-pulse { animation: none; }
             .modal { transform: none; transition: opacity 0.22s ease; }
         }
@@ -1039,7 +1384,7 @@
         @media (max-width: 560px) {
             .feature-grid { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; }
-            h1 { font-size: 28px; }
+            .hero-copy h1 { font-size: 30px; }
             .marquee-card { font-size: 13px; padding: 11px 16px 11px 11px; }
             .marquee-card .ic { width: 30px; height: 30px; }
             .marquee-card .ic svg { width: 15px; height: 15px; }

@@ -78,17 +78,94 @@
 
     <!-- Hero -->
     <section class="hero">
-      <div class="container">
-        <div class="hero-eyebrow">FieldRoutes Native</div>
-        <h1>Commission tracking<br />built for <em>FieldRoutes.</em></h1>
-        <p class="hero-sub">
-          Stop building commission spreadsheets. Rastro automatically syncs with
-          FieldRoutes and handles every edge case — cancellations, overrides,
-          backends, and housing thresholds — so your reps always know exactly
-          where they stand.
-        </p>
-        <div class="hero-cta">
-          <a href="#contact" class="btn-primary">Get in touch</a>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="hero-eyebrow">FieldRoutes Native</div>
+          <h1>Commission tracking<br />built for <em>FieldRoutes.</em></h1>
+          <p class="hero-sub">
+            Stop building commission spreadsheets. Rastro automatically syncs
+            with FieldRoutes and handles every edge case — cancellations,
+            overrides, backends, and housing thresholds — so your reps always
+            know exactly where they stand.
+          </p>
+          <div class="hero-cta">
+            <a href="#contact" class="btn-primary">Get in touch</a>
+          </div>
+        </div>
+
+        <!-- Live pay stub: values updated by assets/js/hero-stub.js -->
+        <div
+          class="hero-visual"
+          role="img"
+          aria-label="Example pay statement for a sales rep, synced from FieldRoutes. Sales add to the total, cancellations show up as clawbacks, and a bar shows whether the rep is over the housing threshold."
+        >
+          <div class="stub-float" aria-hidden="true">
+            <div class="stub-stack" id="stubStack">
+              <div class="stub stub-ghost"></div>
+              <article class="stub stub-live-card">
+                <div class="stub-body">
+                  <header class="stub-head">
+                    <div>
+                      <div class="stub-kicker">Pay statement</div>
+                      <div class="stub-name">J. Rivera</div>
+                      <div class="stub-role">Door-to-door</div>
+                    </div>
+                    <div class="stub-period">
+                      <div class="stub-kicker">Pay period</div>
+                      <div class="stub-dates" id="stubDates">Nov 10 – Nov 23</div>
+                    </div>
+                  </header>
+
+                  <div class="stub-sync">
+                    <span class="stub-live"></span>Synced from FieldRoutes ·
+                    <span id="stubSynced">just now</span>
+                  </div>
+
+                  <div class="stub-numbers" id="stubNumbers">
+                    <dl class="stub-lines">
+                      <div class="stub-line" id="stubLineSales">
+                        <dt>Initial sales<span id="stubSalesCount">42 accounts</span></dt>
+                        <dd id="stubSales">$7,130</dd>
+                      </div>
+                      <div class="stub-line">
+                        <dt>Backend<span>recurring</span></dt>
+                        <dd id="stubBackend">$1,120</dd>
+                      </div>
+                      <div class="stub-line is-neg" id="stubLineClaw">
+                        <dt>Clawbacks<span id="stubClawCount">3 cancels</span></dt>
+                        <dd id="stubClaw">−$705</dd>
+                      </div>
+                    </dl>
+
+                    <div class="stub-total">
+                      <span class="stub-kicker">Owed this period</span>
+                      <strong id="stubTotal">$7,545</strong>
+                    </div>
+
+                    <div class="stub-housing">
+                      <div class="stub-bar">
+                        <div class="stub-bar-fill" id="stubBar" style="width: 75.45%"></div>
+                        <div class="stub-bar-mark"></div>
+                      </div>
+                      <div class="stub-housing-row">
+                        <span>Housing threshold $7,500</span>
+                        <span class="ok" id="stubHousing">Qualified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="stub-perf"></div>
+                <ul class="stub-activity" id="stubActivity">
+                  <li class="up"><span class="what">412 Elm St</span><span class="tag">sold</span><span class="amt">+$110</span></li>
+                  <li class="up"><span class="what">2318 Cedar Ln</span><span class="tag">sold</span><span class="amt">+$95</span></li>
+                  <li class="down"><span class="what">2210 Oak St</span><span class="tag">backend clawback</span><span class="amt">−$375</span></li>
+                </ul>
+
+                <div class="stub-stamp" id="stubStamp">Paid<span id="stubStampAmt">$7,545</span></div>
+              </article>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -982,5 +1059,6 @@
         });
       })();
     </script>
+    <script src="assets/js/hero-stub.js" defer></script>
   </body>
 </html>
