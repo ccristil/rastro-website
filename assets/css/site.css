@@ -1415,3 +1415,73 @@
             .modal-body { padding: 32px 20px; }
 
         }
+
+        /* Footer link row is a <nav>; don't inherit the top-nav border/padding */
+        footer nav.footer-links {
+            border-bottom: none;
+            padding: 0;
+        }
+
+        /* Legal pages (/terms/, /privacy/) */
+        .legal {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 72px 32px 96px;
+            position: relative;
+            z-index: 1;
+        }
+        .legal .section-label { margin-bottom: 12px; }
+        .legal h1 {
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--heading);
+            letter-spacing: -0.8px;
+            margin-bottom: 8px;
+        }
+        .legal .legal-updated {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+        .legal .legal-intro {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text);
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--green);
+            border-radius: 8px;
+            background: var(--surface);
+            margin-bottom: 40px;
+        }
+        .legal h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--heading);
+            margin: 40px 0 12px;
+        }
+        .legal p,
+        .legal li {
+            font-size: 15px;
+            line-height: 1.75;
+            color: var(--text);
+        }
+        .legal p { margin-bottom: 14px; }
+        .legal ul { list-style: disc; padding-left: 22px; margin-bottom: 14px; }
+        .legal li { margin-bottom: 6px; }
+        .legal a { color: var(--green); text-decoration: none; }
+        .legal a:hover { text-decoration: underline; }
+        .legal strong { color: var(--heading); font-weight: 600; }
+        .legal-back {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            text-decoration: none;
+        }
+        .legal-back:hover { color: var(--heading); }
+        @media (max-width: 560px) {
+            .legal { padding: 48px 20px 72px; }
+            .legal h1 { font-size: 28px; }
+            footer .inner { flex-direction: column; gap: 12px; padding: 0 20px; }
+        }
