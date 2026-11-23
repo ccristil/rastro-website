@@ -19,6 +19,7 @@
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="stylesheet" href="assets/css/site.css" />
+    <script src="assets/js/analytics.js"></script>
     <link
       rel="alternate"
       type="text/plain"
@@ -868,6 +869,11 @@
           });
 
           if (response.ok) {
+            // Tie this visitor (and their earlier visits) to who they are
+            try {
+              posthog.identify(email, { email, name, company, teamsize });
+              track("waitlist_submitted", { company, teamsize });
+            } catch (e) {}
             document.getElementById("form-content").style.display = "none";
             document.getElementById("success-msg").style.display = "block";
           } else {
