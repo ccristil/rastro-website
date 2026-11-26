@@ -152,6 +152,23 @@
             cursor: pointer;
         }
         .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
+
+        /* Log in: the app at app.getrastro.com. A pill the same height as the theme toggle. */
+        .nav-login {
+            display: inline-flex;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 100px;
+            padding: 7px 14px;
+            font-size: 13px;
+            line-height: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: border-color 0.15s;
+        }
+        .nav-login:hover { border-color: var(--border-hover); }
         .theme-toggle svg { width: 15px; height: 15px; display: block; }
         .theme-toggle .icon-sun  { display: none; }
         .theme-toggle .icon-moon { display: block; }
